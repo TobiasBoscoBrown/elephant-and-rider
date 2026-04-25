@@ -4,345 +4,780 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Elephant & The Rider — An ADHD Framework That Actually Works</title>
-<meta name="description" content="A practical ADHD management framework built on environment design, not willpower. The Elephant & Rider model, the Engine, cognitive scaffolding, and why most self-help advice fails ADHD brains.">
+<meta name="description" content="A practical ADHD management framework built on environment design, not willpower. Includes the Elephant & Rider model, The Engine, SQUIP OS agent system, and why most self-help advice fails ADHD brains.">
 <style>
+  :root {
+    --bg: #0d1117; --bg2: #161b22; --bg3: #1c2128;
+    --border: #30363d; --border-light: #21262d;
+    --text: #c9d1d9; --text-dim: #8b949e; --text-muted: #484f58;
+    --blue: #58a6ff; --blue-dim: #1f6feb; --purple: #d2a8ff;
+    --orange: #f0883e; --green: #3fb950; --red: #f85149;
+    --yellow: #e3b341; --pink: #f778ba;
+  }
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
   body {
-    background: #0d1117; color: #c9d1d9;
+    background: var(--bg); color: var(--text);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    line-height: 1.8; padding: 24px 20px; max-width: 780px; margin: 0 auto;
+    line-height: 1.75; overflow-x: hidden;
   }
-  h1 { color: #58a6ff; font-size: 1.9em; margin-bottom: 6px; line-height: 1.2; }
-  .subtitle { color: #8b949e; font-size: 0.95em; margin-bottom: 36px; }
-  h2 {
-    color: #79c0ff; font-size: 1.35em; margin: 40px 0 14px;
-    border-bottom: 1px solid #21262d; padding-bottom: 8px;
+
+  /* ── Progress bar ── */
+  #progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--blue), var(--purple), var(--pink)); z-index: 1000; transition: width 0.15s; width: 0%; }
+
+  /* ── Top nav ── */
+  #topnav {
+    position: fixed; top: 3px; left: 0; right: 0; z-index: 999;
+    background: rgba(13,17,23,0.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-light);
+    padding: 10px 20px; display: flex; align-items: center; gap: 12px;
+    transition: transform 0.3s;
   }
-  h3 { color: #d2a8ff; font-size: 1.1em; margin: 24px 0 8px; }
-  p { margin-bottom: 16px; }
-  .highlight { color: #f0883e; font-weight: 600; }
+  #topnav.hidden { transform: translateY(-100%); }
+  .nav-title { color: var(--blue); font-weight: 700; font-size: 0.9em; white-space: nowrap; }
+  .nav-pills { display: flex; gap: 6px; overflow-x: auto; flex: 1; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .nav-pills::-webkit-scrollbar { display: none; }
+  .nav-pill {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 20px;
+    padding: 4px 14px; font-size: 0.78em; color: var(--text-dim); white-space: nowrap;
+    cursor: pointer; transition: all 0.2s; text-decoration: none;
+  }
+  .nav-pill:hover, .nav-pill.active { background: var(--blue-dim); color: #fff; border-color: var(--blue); }
+
+  /* ── Main content ── */
+  .content { max-width: 760px; margin: 0 auto; padding: 80px 20px 60px; }
+
+  /* ── Hero ── */
+  .hero { text-align: center; padding: 40px 0 30px; }
+  .hero h1 { color: var(--blue); font-size: clamp(1.8em, 5vw, 2.4em); margin-bottom: 8px; }
+  .hero .tagline { color: var(--text-dim); font-size: 1em; max-width: 500px; margin: 0 auto 20px; }
+  .hero .read-time { display: inline-block; background: var(--bg2); border: 1px solid var(--border); border-radius: 20px; padding: 4px 16px; font-size: 0.82em; color: var(--text-dim); }
+
+  /* ── Audio player ── */
+  .audio-banner {
+    background: linear-gradient(135deg, rgba(31,111,235,0.15), rgba(211,168,255,0.1));
+    border: 1px solid var(--blue-dim); border-radius: 12px;
+    padding: 20px; margin: 20px 0 30px; text-align: center;
+  }
+  .audio-banner .label { color: var(--blue); font-weight: 700; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+  .audio-banner .desc { color: var(--text-dim); font-size: 0.88em; margin-bottom: 14px; }
+  .audio-banner audio { width: 100%; max-width: 500px; border-radius: 8px; }
+
+  /* ── Section headers ── */
+  .section { margin-bottom: 50px; }
+  .section-header {
+    display: flex; align-items: center; gap: 12px; cursor: pointer;
+    padding: 14px 0; border-bottom: 2px solid var(--border-light);
+    margin-bottom: 18px; user-select: none;
+  }
+  .section-icon { font-size: 1.5em; flex-shrink: 0; }
+  .section-title { color: var(--blue); font-size: 1.3em; font-weight: 700; flex: 1; }
+  .section-toggle {
+    color: var(--text-muted); font-size: 1.4em; transition: transform 0.3s;
+    width: 28px; text-align: center;
+  }
+  .section-toggle.collapsed { transform: rotate(-90deg); }
+  .section-body { overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s; }
+  .section-body.collapsed { max-height: 0 !important; opacity: 0; padding: 0; }
+
+  /* ── Cards ── */
   .card {
-    background: #161b22; border: 1px solid #30363d; border-radius: 8px;
-    padding: 20px; margin-bottom: 16px;
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 18px 20px; margin-bottom: 14px;
+    transition: border-color 0.2s, transform 0.2s;
   }
-  .card-title { color: #58a6ff; font-weight: 600; font-size: 1.05em; margin-bottom: 8px; }
-  .vs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 16px 0; }
-  @media (max-width: 600px) { .vs-grid { grid-template-columns: 1fr; } }
-  .vs-card {
-    background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px;
-  }
-  .vs-yes { border-left: 3px solid #3fb950; }
-  .vs-no { border-left: 3px solid #f85149; }
-  .vs-label { font-weight: 700; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
-  .vs-label-yes { color: #3fb950; }
-  .vs-label-no { color: #f85149; }
-  .callout {
-    background: #1a2332; border: 1px solid #1f6feb; border-radius: 8px;
-    padding: 18px; margin: 20px 0;
-  }
-  .callout-label { color: #1f6feb; font-weight: 700; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .card:hover { border-color: var(--blue-dim); transform: translateY(-1px); }
+  .card-label { font-weight: 700; font-size: 0.95em; margin-bottom: 6px; }
+  .card p { margin-bottom: 10px; font-size: 0.95em; }
+  .card p:last-child { margin-bottom: 0; }
+  .hl { color: var(--orange); font-weight: 600; }
+
+  /* ── Pillar grid ── */
   .pillar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 16px 0; }
   @media (max-width: 600px) { .pillar-grid { grid-template-columns: 1fr; } }
   .pillar {
-    background: #161b22; border: 1px solid #30363d; border-radius: 8px;
-    padding: 16px; text-align: center;
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 20px; text-align: center; transition: transform 0.2s;
   }
-  .pillar-icon { font-size: 2em; margin-bottom: 8px; }
-  .pillar-name { color: #58a6ff; font-weight: 700; font-size: 1.1em; }
-  .pillar-desc { color: #8b949e; font-size: 0.9em; margin-top: 6px; }
+  .pillar:hover { transform: scale(1.02); }
+  .pillar-icon { font-size: 2.2em; margin-bottom: 8px; }
+  .pillar-name { color: var(--blue); font-weight: 700; font-size: 1.1em; }
+  .pillar-desc { color: var(--text-dim); font-size: 0.88em; margin-top: 8px; line-height: 1.6; }
+
+  /* ── VS grid ── */
+  .vs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 14px 0; }
+  @media (max-width: 600px) { .vs-grid { grid-template-columns: 1fr; } }
+  .vs-card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .vs-no { border-left: 3px solid var(--red); }
+  .vs-yes { border-left: 3px solid var(--green); }
+  .vs-label { font-weight: 700; font-size: 0.8em; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+  .vs-label-no { color: var(--red); }
+  .vs-label-yes { color: var(--green); }
+
+  /* ── Callout ── */
+  .callout {
+    background: rgba(31,111,235,0.08); border: 1px solid var(--blue-dim); border-radius: 10px;
+    padding: 18px 20px; margin: 18px 0;
+  }
+  .callout-label { color: var(--blue-dim); font-weight: 700; font-size: 0.82em; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 6px; }
+
+  /* ── Agent cards (SQUIP OS) ── */
+  .agent-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 16px 0; }
+  @media (max-width: 600px) { .agent-grid { grid-template-columns: 1fr; } }
+  .agent-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 18px; transition: all 0.25s; cursor: default;
+  }
+  .agent-card:hover { border-color: var(--purple); transform: translateY(-2px); box-shadow: 0 4px 20px rgba(211,168,255,0.08); }
+  .agent-name { color: var(--purple); font-weight: 700; font-size: 1em; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+  .agent-role { color: var(--text-dim); font-size: 0.82em; margin-bottom: 8px; font-style: italic; }
+  .agent-desc { font-size: 0.9em; line-height: 1.6; }
+
+  /* ── Tabs ── */
+  .tabs { margin: 16px 0; }
+  .tab-headers { display: flex; gap: 4px; border-bottom: 1px solid var(--border); margin-bottom: 14px; flex-wrap: wrap; }
+  .tab-btn {
+    background: none; border: none; color: var(--text-dim); padding: 8px 16px;
+    cursor: pointer; font-size: 0.88em; font-weight: 600; border-bottom: 2px solid transparent;
+    transition: all 0.2s; font-family: inherit;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; animation: fadeIn 0.3s; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── Steps ── */
+  .step { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 16px; }
   .step-num {
-    display: inline-block; background: #1f6feb; color: #fff; width: 28px; height: 28px;
-    border-radius: 50%; text-align: center; line-height: 28px; font-weight: 700;
-    font-size: 0.85em; margin-right: 10px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--blue-dim); color: #fff; width: 30px; height: 30px;
+    border-radius: 50%; font-weight: 700; font-size: 0.85em; flex-shrink: 0;
   }
-  .step { display: flex; align-items: flex-start; margin-bottom: 14px; }
-  .step-text { flex: 1; }
+  .step-text { flex: 1; font-size: 0.95em; }
+
+  /* ── Blockquote ── */
   blockquote {
-    border-left: 3px solid #f0883e; padding-left: 16px; color: #8b949e;
-    font-style: italic; margin: 16px 0;
+    border-left: 3px solid var(--orange); padding: 12px 16px; margin: 18px 0;
+    background: rgba(240,136,62,0.05); border-radius: 0 8px 8px 0;
+    color: var(--text-dim); font-style: italic;
   }
-  a { color: #58a6ff; text-decoration: none; }
-  a:hover { text-decoration: underline; }
+
+  /* ── Quick-quiz ── */
+  .quiz {
+    background: var(--bg3); border: 1px solid var(--border); border-radius: 10px;
+    padding: 20px; margin: 20px 0;
+  }
+  .quiz-q { color: var(--yellow); font-weight: 700; margin-bottom: 12px; }
+  .quiz-opt {
+    display: block; background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 16px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s;
+    color: var(--text); font-size: 0.92em; width: 100%; text-align: left; font-family: inherit;
+  }
+  .quiz-opt:hover { border-color: var(--blue); }
+  .quiz-opt.correct { border-color: var(--green); background: rgba(63,185,80,0.1); }
+  .quiz-opt.wrong { border-color: var(--red); background: rgba(248,81,73,0.08); opacity: 0.7; }
+  .quiz-explain { display: none; margin-top: 12px; color: var(--text-dim); font-size: 0.9em; padding: 12px; background: rgba(63,185,80,0.06); border-radius: 8px; }
+  .quiz-explain.show { display: block; animation: fadeIn 0.3s; }
+
+  /* ── Footer ── */
   .footer {
-    color: #484f58; font-size: 0.8em; margin-top: 48px; text-align: center;
-    border-top: 1px solid #21262d; padding-top: 16px;
+    color: var(--text-muted); font-size: 0.8em; margin-top: 48px; text-align: center;
+    border-top: 1px solid var(--border-light); padding-top: 16px;
   }
-  .toc { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 18px; margin-bottom: 32px; }
-  .toc-title { color: #79c0ff; font-weight: 600; margin-bottom: 8px; }
-  .toc a { display: block; padding: 3px 0; color: #8b949e; font-size: 0.95em; }
-  .toc a:hover { color: #58a6ff; }
+
+  /* ── Misc ── */
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  p { margin-bottom: 14px; font-size: 0.95em; }
+  strong { color: var(--text); }
+  .emoji-label { font-size: 1.1em; margin-right: 6px; }
+
+  /* ── Scroll animations ── */
+  .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s, transform 0.5s; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
 </style>
 </head>
 <body>
 
-<h1>The Elephant & The Rider</h1>
-<p class="subtitle">An ADHD framework built on environment design, not willpower.<br>By someone who learned the hard way that neurotypical self-help doesn't work for us.</p>
+<div id="progress"></div>
 
-<a href="podcast.html" style="display:block;background:#161b22;border:1px solid #1f6feb;border-radius:8px;padding:16px 20px;margin-bottom:24px;text-decoration:none;color:#c9d1d9;">
-  <span style="color:#1f6feb;font-weight:700;font-size:0.85em;text-transform:uppercase;letter-spacing:1px;">&#127911; Podcast version</span><br>
-  <span style="color:#8b949e;font-size:0.92em;">Prefer listening? This whole framework as a two-host conversational script (~14 min). Feed it into NotebookLM for audio.</span>
-</a>
+<nav id="topnav">
+  <span class="nav-title">Elephant & Rider</span>
+  <div class="nav-pills">
+    <a class="nav-pill" href="#model" data-section="model">The Model</a>
+    <a class="nav-pill" href="#engine" data-section="engine">Engine</a>
+    <a class="nav-pill" href="#works" data-section="works">What Works</a>
+    <a class="nav-pill" href="#doesnt" data-section="doesnt">What Doesn't</a>
+    <a class="nav-pill" href="#wall" data-section="wall">Wall of Awful</a>
+    <a class="nav-pill" href="#squip" data-section="squip">SQUIP OS</a>
+    <a class="nav-pill" href="#agents" data-section="agents">The Agents</a>
+    <a class="nav-pill" href="#scaffolding" data-section="scaffolding">Scaffolding</a>
+    <a class="nav-pill" href="#stove" data-section="stove">Stove Warm</a>
+    <a class="nav-pill" href="#filter" data-section="filter">Filter</a>
+  </div>
+</nav>
 
-<div class="toc">
-  <div class="toc-title">What's in here</div>
-  <a href="#model">The Model — Elephant & Rider</a>
-  <a href="#engine">The Engine — Three pillars that make everything else possible</a>
-  <a href="#works">What Actually Works for ADHD brains</a>
-  <a href="#doesnt">What Doesn't Work (and why)</a>
-  <a href="#wall">The Wall of Awful</a>
-  <a href="#scaffolding">Cognitive Scaffolding — Building the path</a>
-  <a href="#stove">Keep the Stove Warm — The anti-burnout principle</a>
-  <a href="#sustainability">The Sustainability Filter</a>
-  <a href="#compare">How this compares to other frameworks</a>
+<div class="content">
+
+<!-- ══════════ HERO ══════════ -->
+<div class="hero">
+  <h1>The Elephant & The Rider</h1>
+  <p class="tagline">An ADHD framework built on environment design, not willpower. By someone who learned the hard way that neurotypical self-help doesn't work for us.</p>
+  <span class="read-time">~15 min read &middot; Collapsible sections &middot; Click around</span>
+</div>
+
+<!-- ══════════ AUDIO ══════════ -->
+<div class="audio-banner">
+  <div class="label">Listen Instead</div>
+  <div class="desc">This whole framework as a two-host conversation (~18 min). Hit play and scroll along, or just listen.</div>
+  <audio controls preload="metadata">
+    <source src="podcast.mp3" type="audio/mpeg">
+    Your browser doesn't support audio. <a href="podcast.mp3">Download the MP3</a>.
+  </audio>
 </div>
 
 <div class="callout">
-  <div class="callout-label">The core idea</div>
-  <p>Most ADHD advice assumes your brain works like a neurotypical brain with a discipline problem. It doesn't. Your brain has a <span class="highlight">dopamine regulation problem</span> and an <span class="highlight">executive function problem</span>. The solution isn't trying harder. It's building an environment where the right action is the easiest action — so your brain does it naturally.</p>
+  <div class="callout-label">The core idea in one sentence</div>
+  <p style="margin:0">Most ADHD advice assumes your brain is a neurotypical brain with a discipline problem. It's not. It has a <span class="hl">dopamine regulation problem</span> and an <span class="hl">executive function problem</span>. The solution isn't trying harder. It's building an environment where the right action is the easiest action.</p>
 </div>
 
-<h2 id="model">The Model: The Elephant & The Rider</h2>
-
-<p>This comes from Jonathan Haidt's research, but it maps onto ADHD so precisely it should be in every diagnosis packet.</p>
-
-<div class="card">
-  <div class="card-title">The Rider</div>
-  <p>Your conscious, planning self. Has goals, intentions, values. Knows what you <em>should</em> do. Can reason, plan, and strategize. But the Rider is small, and sitting on top of something much more powerful.</p>
-</div>
-
-<div class="card">
-  <div class="card-title">The Elephant</div>
-  <p>Your dopamine-seeking, feeling self. Intelligent — not broken, not lazy, not bad. The Elephant is the one who actually <em>does</em> things. It responds to what feels good, what's easy, what's novel, what's immediately rewarding. It cannot be forced. It can only be guided.</p>
-</div>
-
-<p>Here's the critical insight: <span class="highlight">the Rider cannot overpower the Elephant.</span> Not long-term. Willpower is the Rider pulling on the reins. It works for about 10 minutes, maybe an hour on a good day. Then the Elephant goes wherever it wants.</p>
-
-<p>So what can the Rider do? <span class="highlight">Design the environment.</span> Place apples in the Elephant's path <em>before</em> the pull is active. By the time a craving, an avoidance impulse, or a distraction is active, willpower is largely offline. The intervention has to happen earlier.</p>
-
-<blockquote>The Rider's power isn't strength. It's foresight. Set up the path before the Elephant starts walking.</blockquote>
-
-<h2 id="engine">The Engine</h2>
-
-<p>Before systems, before productivity, before habits — there are three pillars. When these are running, everything else gets easier. When they're down, nothing else matters. Lower the bar. Don't raise it.</p>
-
-<div class="pillar-grid">
-  <div class="pillar">
-    <div class="pillar-icon">😴</div>
-    <div class="pillar-name">Sleep</div>
-    <div class="pillar-desc">The engine core. ADHD brains typically need 8.5–9.5 hours. Not a luxury — infrastructure. Chronic undersleep degrades executive function, which is already your bottleneck.</div>
+<!-- ══════════ SECTION: THE MODEL ══════════ -->
+<div class="section reveal" id="model">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span class="section-icon">🐘</span>
+    <span class="section-title">The Model: Elephant & Rider</span>
+    <span class="section-toggle">&#9660;</span>
   </div>
-  <div class="pillar">
-    <div class="pillar-icon">💊</div>
-    <div class="pillar-name">Meds</div>
-    <div class="pillar-desc">If prescribed: take them. This isn't a crutch. Medication restores executive function that is otherwise genuinely offline. It's the biological foundation everything else builds on.</div>
-  </div>
-  <div class="pillar">
-    <div class="pillar-icon">🚶</div>
-    <div class="pillar-name">Movement</div>
-    <div class="pillar-desc">One of the most evidence-backed interventions for ADHD symptoms. Doesn't need to be the gym. A walk counts. Protect whatever form of movement you actually enjoy.</div>
+  <div class="section-body">
+    <p>This comes from Jonathan Haidt's research, and it maps onto ADHD with eerie precision.</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0">
+      <div class="card" style="border-top:3px solid var(--blue)">
+        <div class="card-label" style="color:var(--blue)">🧠 The Rider</div>
+        <p>Your conscious, planning self. Has goals and values. Knows what you <em>should</em> do. Can reason and strategize. But the Rider is small, and sitting on top of something much more powerful.</p>
+      </div>
+      <div class="card" style="border-top:3px solid var(--purple)">
+        <div class="card-label" style="color:var(--purple)">🐘 The Elephant</div>
+        <p>Your dopamine-seeking, feeling self. Not broken, not lazy. The one who actually <em>does</em> things. Responds to what feels good, what's easy, what's novel. Cannot be forced. Can only be guided.</p>
+      </div>
+    </div>
+
+    <p>The critical insight: <span class="hl">the Rider cannot overpower the Elephant.</span> Willpower is the Rider pulling on the reins. It works for about 10 minutes. Then the Elephant goes wherever it wants.</p>
+
+    <p>So what CAN the Rider do? <span class="hl">Design the environment.</span> Place apples in the Elephant's path <em>before</em> the pull is active. By the time a craving or distraction hits, willpower is already offline. The intervention has to happen earlier.</p>
+
+    <blockquote>The Rider's power isn't strength. It's foresight. Set up the path before the Elephant starts walking.</blockquote>
+
+    <div class="quiz">
+      <div class="quiz-q">Quick check: It's 9pm and you want to stop scrolling your phone. What does this framework say to do?</div>
+      <button class="quiz-opt" onclick="quizAnswer(this,false)">Put the phone down using willpower</button>
+      <button class="quiz-opt" onclick="quizAnswer(this,true)">The intervention should've happened at 7pm — phone in another room before the pull starts</button>
+      <button class="quiz-opt" onclick="quizAnswer(this,false)">Tell yourself it's important to stop</button>
+      <div class="quiz-explain">By 9pm the Elephant is already running. The Rider plans when executive function is online (morning/afternoon) and sets up barriers before the pull is active. Phone in another room at 7pm = path already built.</div>
+    </div>
   </div>
 </div>
 
-<div class="callout">
-  <div class="callout-label">The Engine Rule</div>
-  <p>When the engine is running, you can build. When it's down, your only job is to get it running again — with the smallest possible action. Not the optimal action. The smallest one.</p>
-</div>
-
-<h2 id="works">What Actually Works</h2>
-
-<div class="card">
-  <div class="card-title">Environment Design Over Willpower</div>
-  <p>Always. The Elephant responds to what's in the path. If you want to drink water, put a glass next to your bed. If you want to stop doomscrolling, put your phone in another room before 9pm. If you want to start working, open the file before you sit down. Make the right choice the <em>easiest</em> choice.</p>
-</div>
-
-<div class="card">
-  <div class="card-title">Breaking Tasks Into Elephant-Sized Pieces</div>
-  <p>If a task feels too big or effortful, the Elephant turns around. Full stop. The solution is always to make the next step smaller and more immediately doable — not to push harder. "Work on the project" is invisible to the Elephant. "Open the file" is not.</p>
-</div>
-
-<div class="card">
-  <div class="card-title">Systems That Don't Require You At All</div>
-  <p>The ideal solution to any recurring task is automation or environmental design that removes you from the loop entirely. Auto-pay bills. Pre-set alarms. Auto-sort emails. Anything you can hand to a system means one less thing competing for your limited executive function. This isn't laziness — it's accurate self-knowledge.</p>
-</div>
-
-<div class="card">
-  <div class="card-title">Gamification</div>
-  <p>The Elephant responds to game-like structures. Points, streaks, clear feedback loops, progress bars. If you can make a task feel like a game, the Elephant will engage with it. Design for this. Novelty works well as a motivator too — but it wears off. Plan for the decay.</p>
-</div>
-
-<div class="card">
-  <div class="card-title">Body Doubling</div>
-  <p>Working alongside another person — even silently — lowers activation energy. Tools like Focusmate pair you with a stranger for a focused work session. It works because the Elephant cares about social presence, even if the Rider thinks it shouldn't matter.</p>
-</div>
-
-<div class="card">
-  <div class="card-title">Cognitive Scaffolding</div>
-  <p>Deliberately building external structures that do what your executive function can't. Todo lists, timers, visual reminders, phone alarms, accountability systems. The goal is to make the right action the most naturally occurring one — without needing to remember, decide, or motivate yourself each time.</p>
-</div>
-
-<h2 id="doesnt">What Doesn't Work (And Why)</h2>
-
-<div class="vs-grid">
-  <div class="vs-card vs-no">
-    <div class="vs-label vs-label-no">Doesn't work</div>
-    <p><strong>"This is important, so do it."</strong></p>
-    <p>The fact that something matters does not make it easier to start. At all. Importance is not a motivator for ADHD brains — if anything, importance increases the stakes, which increases anxiety, which increases avoidance.</p>
+<!-- ══════════ SECTION: THE ENGINE ══════════ -->
+<div class="section reveal" id="engine">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span class="section-icon">⚡</span>
+    <span class="section-title">The Engine — Three Pillars</span>
+    <span class="section-toggle">&#9660;</span>
   </div>
-  <div class="vs-card vs-yes">
-    <div class="vs-label vs-label-yes">Do instead</div>
-    <p><strong>Frame the next step as easy and satisfying.</strong></p>
-    <p>"Just open the doc and type one sentence." The Elephant doesn't care about importance. It cares about friction and reward.</p>
+  <div class="section-body">
+    <p>Before systems, before productivity, before habits — there are three pillars. When these are running, everything else gets easier. When they're down, <span class="hl">lower the bar. Don't raise it.</span></p>
+
+    <div class="pillar-grid">
+      <div class="pillar">
+        <div class="pillar-icon">😴</div>
+        <div class="pillar-name">Sleep</div>
+        <div class="pillar-desc">The engine core. ADHD brains need 8.5-9.5 hours. Not a luxury — infrastructure. Chronic undersleep degrades the executive function that's already your bottleneck.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">💊</div>
+        <div class="pillar-name">Meds</div>
+        <div class="pillar-desc">If prescribed: take them. Not a crutch. Medication restores executive function that's otherwise genuinely offline. You wouldn't tell someone with glasses they're "cheating at seeing."</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-icon">🚶</div>
+        <div class="pillar-name">Movement</div>
+        <div class="pillar-desc">One of the strongest evidence-backed interventions. Doesn't need to be the gym. A walk counts. Protect whatever form of movement the Elephant actually enjoys.</div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">The Engine Rule</div>
+      <p style="margin:0">When the engine is running, you can build. When it's down, your only job is the <span class="hl">smallest possible action</span> to get it running again. Not the optimal action. The smallest one. Take the pill. Walk for 5 minutes. Get in bed.</p>
+    </div>
   </div>
 </div>
 
-<div class="vs-grid">
-  <div class="vs-card vs-no">
-    <div class="vs-label vs-label-no">Doesn't work</div>
-    <p><strong>Stacking multiple habit changes.</strong></p>
-    <p>Trying to change 3 things at once splits limited psychological resources and usually collapses all of them. The ADHD brain has even less bandwidth for simultaneous change than neurotypical brains.</p>
+<!-- ══════════ SECTION: WHAT WORKS ══════════ -->
+<div class="section reveal" id="works">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span class="section-icon">✅</span>
+    <span class="section-title">What Actually Works</span>
+    <span class="section-toggle">&#9660;</span>
   </div>
-  <div class="vs-card vs-yes">
-    <div class="vs-label vs-label-yes">Do instead</div>
-    <p><strong>One high-leverage thing at a time.</strong></p>
-    <p>Pick the change that opens the most future good changes. Get it stable. Then add the next one.</p>
+  <div class="section-body">
+    <div class="tabs">
+      <div class="tab-headers">
+        <button class="tab-btn active" onclick="switchTab(this,'works')">Environment</button>
+        <button class="tab-btn" onclick="switchTab(this,'works')">Task Size</button>
+        <button class="tab-btn" onclick="switchTab(this,'works')">Automation</button>
+        <button class="tab-btn" onclick="switchTab(this,'works')">Gamification</button>
+        <button class="tab-btn" onclick="switchTab(this,'works')">Body Doubling</button>
+      </div>
+      <div class="tab-panel active" data-group="works">
+        <div class="card">
+          <div class="card-label"><span class="emoji-label">🏗️</span> Environment Design Over Willpower</div>
+          <p>Always. The Elephant responds to what's in the path. Want to drink water? Put a glass next to your bed. Want to stop doomscrolling? Phone in another room before 9pm. Want to start working? Open the file before you sit down.</p>
+          <p><span class="hl">Make the right choice the easiest choice.</span></p>
+        </div>
+      </div>
+      <div class="tab-panel" data-group="works">
+        <div class="card">
+          <div class="card-label"><span class="emoji-label">🧩</span> Elephant-Sized Pieces</div>
+          <p>If a task feels too big, the Elephant turns around. Full stop. The solution is always to make the next step smaller — not to push harder.</p>
+          <p>"Work on the project" is invisible to the Elephant. <span class="hl">"Open the file"</span> is not.</p>
+        </div>
+      </div>
+      <div class="tab-panel" data-group="works">
+        <div class="card">
+          <div class="card-label"><span class="emoji-label">🤖</span> Systems That Don't Require You</div>
+          <p>The ideal solution to any recurring task is automation that removes you from the loop entirely. Auto-pay bills. Pre-set alarms. Auto-sort emails. AI agents that handle the thinking for you.</p>
+          <p>Anything you hand to a system = one less thing competing for your limited executive function. <span class="hl">This isn't laziness — it's accurate self-knowledge.</span></p>
+        </div>
+      </div>
+      <div class="tab-panel" data-group="works">
+        <div class="card">
+          <div class="card-label"><span class="emoji-label">🎮</span> Gamification</div>
+          <p>The Elephant responds to game-like structures. Points, streaks, clear feedback loops, progress bars, character personas, missions. If you can make a task feel like a game, the Elephant will engage.</p>
+          <p>Novelty works too — but it wears off. <span class="hl">Plan for the decay.</span></p>
+        </div>
+      </div>
+      <div class="tab-panel" data-group="works">
+        <div class="card">
+          <div class="card-label"><span class="emoji-label">👥</span> Body Doubling</div>
+          <p>Working alongside another person — even silently — lowers activation energy. It works because the Elephant cares about social presence, even if the Rider thinks it shouldn't matter.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="vs-grid">
-  <div class="vs-card vs-no">
-    <div class="vs-label vs-label-no">Doesn't work</div>
-    <p><strong>Willpower late in the day or after activation.</strong></p>
-    <p>By the time the Elephant is running toward something — food, phone, distraction — willpower is largely offline. Interventions that rely on "just don't do it" at 11pm will fail.</p>
+<!-- ══════════ SECTION: WHAT DOESN'T WORK ══════════ -->
+<div class="section reveal" id="doesnt">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span class="section-icon">🚫</span>
+    <span class="section-title">What Doesn't Work (And Why)</span>
+    <span class="section-toggle">&#9660;</span>
   </div>
-  <div class="vs-card vs-yes">
-    <div class="vs-label vs-label-yes">Do instead</div>
-    <p><strong>Move the intervention earlier.</strong></p>
-    <p>Set up barriers, alternatives, and environmental changes <em>before</em> the pull is active. The Rider plans in the morning. The Elephant runs at night.</p>
+  <div class="section-body">
+    <div class="vs-grid">
+      <div class="vs-card vs-no">
+        <div class="vs-label vs-label-no">Fails</div>
+        <p><strong>"This is important, so do it."</strong></p>
+        <p style="font-size:0.9em">Importance is not a motivator for ADHD. It increases stakes, increases anxiety, increases avoidance.</p>
+      </div>
+      <div class="vs-card vs-yes">
+        <div class="vs-label vs-label-yes">Instead</div>
+        <p><strong>Frame it as easy and satisfying.</strong></p>
+        <p style="font-size:0.9em">"Just open the doc and type one sentence." The Elephant doesn't care about importance. It cares about friction and reward.</p>
+      </div>
+    </div>
+
+    <div class="vs-grid">
+      <div class="vs-card vs-no">
+        <div class="vs-label vs-label-no">Fails</div>
+        <p><strong>Stacking multiple habit changes</strong></p>
+        <p style="font-size:0.9em">Trying to change 3 things at once splits limited resources and usually collapses ALL of them.</p>
+      </div>
+      <div class="vs-card vs-yes">
+        <div class="vs-label vs-label-yes">Instead</div>
+        <p><strong>One high-leverage thing at a time.</strong></p>
+        <p style="font-size:0.9em">Pick the change that opens the most future good changes. Get it stable. Then add the next.</p>
+      </div>
+    </div>
+
+    <div class="vs-grid">
+      <div class="vs-card vs-no">
+        <div class="vs-label vs-label-no">Fails</div>
+        <p><strong>Willpower late in the day</strong></p>
+        <p style="font-size:0.9em">By the time the Elephant is running toward something, willpower is offline. "Just don't do it" at 11pm will fail.</p>
+      </div>
+      <div class="vs-card vs-yes">
+        <div class="vs-label vs-label-yes">Instead</div>
+        <p><strong>Move the intervention earlier.</strong></p>
+        <p style="font-size:0.9em">The Rider plans in the morning. Environmental barriers go up at 8pm. By night, the path is already built.</p>
+      </div>
+    </div>
+
+    <div class="vs-grid">
+      <div class="vs-card vs-no">
+        <div class="vs-label vs-label-no">Fails</div>
+        <p><strong>Shame or pressure</strong></p>
+        <p style="font-size:0.9em">Adds cognitive overhead. Makes the Wall of Awful taller. Shame is a tax on already-limited resources.</p>
+      </div>
+      <div class="vs-card vs-yes">
+        <div class="vs-label vs-label-yes">Instead</div>
+        <p><strong>Name it and move on.</strong></p>
+        <p style="font-size:0.9em">"That didn't happen. What's the smallest next step?" Missed rituals are data, not failures.</p>
+      </div>
+    </div>
   </div>
 </div>
 
-<div class="vs-grid">
-  <div class="vs-card vs-no">
-    <div class="vs-label vs-label-no">Doesn't work</div>
-    <p><strong>Shame or pressure.</strong></p>
-    <p>Adds cognitive overhead. Reduces capacity for the actual target behavior. Makes the Wall of Awful taller. Shame is not a tool — it's a tax on your already-limited resources.</p>
+<!-- ══════════ SECTION: WALL OF AWFUL ══════════ -->
+<div class="section reveal" id="wall">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span class="section-icon">🧱</span>
+    <span class="section-title">The Wall of Awful</span>
+    <span class="section-toggle">&#9660;</span>
   </div>
-  <div class="vs-card vs-yes">
-    <div class="vs-label vs-label-yes">Do instead</div>
-    <p><strong>Name the dynamic plainly and move on.</strong></p>
-    <p>"That didn't happen. What's the smallest next step?" Missed rituals are data, not failures.</p>
+  <div class="section-body">
+    <div class="card">
+      <p>Some tasks accumulate layers of emotional resistance — avoidance, shame, previous failures — that make starting feel <em>genuinely impossible</em> even when the task itself is small.</p>
+      <p>Every time you failed at something and felt bad about it, a brick gets added to the wall. The task might take 5 minutes. The wall of shame and past failure between you and the task makes it feel like climbing Everest.</p>
+    </div>
+
+    <p style="color:var(--orange);font-weight:600">The solution is never "just do it." It's to find a sideways entry point:</p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0">
+      <div class="card"><span class="emoji-label">🔄</span> Do a related but different version of the task</div>
+      <div class="card"><span class="emoji-label">👥</span> Do it with someone else (body doubling)</div>
+      <div class="card"><span class="emoji-label">🗣️</span> Name the wall out loud — it shrinks when you see it</div>
+      <div class="card"><span class="emoji-label">🎯</span> Identify the real fear (it's usually not the task itself)</div>
+    </div>
+
+    <blockquote>"I'm not afraid of this email. I'm afraid of the 47 emails I didn't answer before it."</blockquote>
   </div>
 </div>
 
-<h2 id="wall">The Wall of Awful</h2>
+<!-- ══════════ SECTION: SQUIP OS ══════════ -->
+<div class="section reveal" id="squip">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span class="section-icon">🖥️</span>
+    <span class="section-title">SQUIP OS — The Implementation Layer</span>
+    <span class="section-toggle">&#9660;</span>
+  </div>
+  <div class="section-body">
+    <p>Everything above is the theory. This section is <span class="hl">how it actually gets implemented</span> — a system called SQUIP OS that turns the framework into a living, automated operating system for an ADHD brain.</p>
 
-<div class="card">
-  <p>Some tasks accumulate layers of emotional resistance — avoidance, shame, previous failed attempts — that make starting feel <em>genuinely impossible</em> even when the task itself is small. This is a known ADHD phenomenon.</p>
-  <p>Every time you fail at something and feel bad about it, a brick gets added to the wall. Over time, the wall between you and the task becomes so tall that the Elephant won't even look at it. The task could take 5 minutes. The wall is what makes it feel like climbing Everest.</p>
-  <p><span class="highlight">The solution is never "just do it."</span> It's to identify and reduce the emotional load, or find a sideways entry point into the task. Sometimes that means doing a related-but-different version. Sometimes it means doing it with someone else. Sometimes it means acknowledging the wall out loud, which shrinks it.</p>
+    <p>SQUIP OS is built on one core principle: <span class="hl">if it requires you to remember, decide, or initiate — it will fail.</span> So instead of relying on the human to run the system, the system runs itself. AI agents handle the thinking. The human just has to show up.</p>
+
+    <div class="callout">
+      <div class="callout-label">Why "SQUIP"?</div>
+      <p style="margin:0">Named after the concept of an implanted computer that guides your decisions. Except instead of a chip in your brain, it's a network of AI agents in your phone that read your state, know your patterns, and put the right thing in your path at the right time.</p>
+    </div>
+
+    <h3 style="color:var(--purple);margin:24px 0 10px">The Architecture</h3>
+    <p>SQUIP OS has four layers, each building on the last:</p>
+
+    <div class="step">
+      <span class="step-num">1</span>
+      <div class="step-text"><strong style="color:var(--blue)">The Identity Layer</strong> — A static document (USER.md) that defines who you are: your framework, your patterns, your values, what works and what doesn't. Every agent reads this before doing anything. It's the constitution.</div>
+    </div>
+    <div class="step">
+      <span class="step-num">2</span>
+      <div class="step-text"><strong style="color:var(--blue)">The State Layer</strong> — A dynamic document (Current Context Brief) that tracks your real-time state: engine status, current struggles, recent wins, active focus items. This is the single source of truth that all agents read before messaging you.</div>
+    </div>
+    <div class="step">
+      <span class="step-num">3</span>
+      <div class="step-text"><strong style="color:var(--blue)">The Agent Layer</strong> — AI agents that run on schedules, read your state, and deliver the right nudge at the right time. No two agents say the same thing. They coordinate through the shared context.</div>
+    </div>
+    <div class="step">
+      <span class="step-num">4</span>
+      <div class="step-text"><strong style="color:var(--blue)">The Protocol Layer</strong> — Pre-loaded responses to specific triggers. Implementation Intentions and emergency protocols that fire automatically because they were designed before the moment hit.</div>
+    </div>
+
+    <div class="quiz">
+      <div class="quiz-q">Why does SQUIP OS use AI agents instead of simple reminders or alarms?</div>
+      <button class="quiz-opt" onclick="quizAnswer(this,false)">Because AI is trendy</button>
+      <button class="quiz-opt" onclick="quizAnswer(this,true)">Agents read your current state and adapt — a static alarm can't know you had a rough morning and need gentleness instead of a push</button>
+      <button class="quiz-opt" onclick="quizAnswer(this,false)">Alarms would work just as well</button>
+      <div class="quiz-explain">Static reminders get ignored because they don't match your current state. An agent that reads your Context Brief knows whether to push or to soften. That's the difference between "take your meds" (which you tune out) and a contextual nudge that accounts for how you're actually doing right now.</div>
+    </div>
+  </div>
 </div>
 
-<h2 id="scaffolding">Cognitive Scaffolding — Building the Path</h2>
+<!-- ══════════ SECTION: THE AGENTS ══════════ -->
+<div class="section reveal" id="agents">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span class="section-icon">🤖</span>
+    <span class="section-title">The Agent Crew</span>
+    <span class="section-toggle">&#9660;</span>
+  </div>
+  <div class="section-body">
+    <p>These are the AI agents that actually run the system. Each one has a specific job, reads the shared context, and coordinates with the others so nothing overlaps or contradicts.</p>
 
-<p>The neurotypical self-help world says: build discipline, create habits, be consistent. For ADHD brains, this advice is like telling someone with a broken leg to walk it off. The leg needs a cast first. That cast is <span class="highlight">cognitive scaffolding.</span></p>
+    <div class="agent-grid">
+      <div class="agent-card" style="grid-column: 1 / -1; border-top: 3px solid var(--green);">
+        <div class="agent-name"><span style="font-size:1.3em">🌿</span> Eden — The Research Garden</div>
+        <div class="agent-role">Highest-leverage agent. Autonomous daily researcher.</div>
+        <div class="agent-desc">
+          <p>Eden runs every morning on autopilot. It searches the latest ADHD science, recovery research, sleep optimization studies, and automation ideas — then filters everything through a sustainability check before deciding if it's worth sharing.</p>
+          <p>Most days, Eden finds interesting things but stays quiet — only messaging when something is genuinely groundbreaking and applicable <em>that day</em>. It reads your current state, your therapist's latest notes, your recent wins and struggles, and uses all of that to decide what research matters right now.</p>
+          <p>Eden is named after the Garden of Eden — where one goes to find apples of knowledge. It doesn't push. It doesn't nag. It places apples in the Elephant's path and lets you decide what to pick up.</p>
+          <p style="color:var(--green);font-weight:600;margin:0">Why it's the highest leverage: Eden surfaces things you didn't know you didn't know. It's found medication timing research, specific exercise protocols for ADHD, and automation ideas that saved hours — all without being asked.</p>
+        </div>
+      </div>
+    </div>
 
-<div class="step">
-  <span class="step-num">1</span>
-  <div class="step-text"><strong>Externalize everything.</strong> Your working memory is unreliable. Get tasks, deadlines, ideas, and commitments OUT of your head and INTO a system. One system. Not five apps. One trusted place the Elephant knows to check.</div>
+    <div class="agent-grid">
+      <div class="agent-card">
+        <div class="agent-name"><span>🐀</span> The Squip Rats</div>
+        <div class="agent-role">5 daily check-in bots, each with a time slot</div>
+        <div class="agent-desc">
+          <p>Five Telegram bots that message at key moments: morning boost, noon check-in, afternoon wind-down, evening transition, and bedtime. Each one reads the shared context before messaging, so they know your current state.</p>
+          <p>They're called "rats" because they're small, persistent, and everywhere. Tone adapts: gentle on hard days, energetic on good ones.</p>
+        </div>
+      </div>
+      <div class="agent-card">
+        <div class="agent-name"><span>🌙</span> The Sleeper Agent</div>
+        <div class="agent-role">Bedtime wind-down protocol</div>
+        <div class="agent-desc">
+          <p>Activates at night with a fixed sequence: cold water, dim lights, warm drink, brush teeth, phone plugged in another room. Uses character personas (like a dry-witted butler) to make the routine feel like a game rather than a chore.</p>
+          <p>Tracks "missions" with streaks and reports. The Elephant loves the game layer.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="agent-grid">
+      <div class="agent-card">
+        <div class="agent-name"><span>📋</span> The Eisenhower Matrix</div>
+        <div class="agent-role">Task triage system</div>
+        <div class="agent-desc">
+          <p>Every task gets sorted by urgency and importance into four quadrants. But the ADHD twist: tasks also get an "Elephant tolerance" rating. A task can be urgent AND important and still not get done if the Wall of Awful is too high. The system accounts for that.</p>
+        </div>
+      </div>
+      <div class="agent-card">
+        <div class="agent-name"><span>📄</span> Current Context Brief</div>
+        <div class="agent-role">The single source of truth</div>
+        <div class="agent-desc">
+          <p>A living document every agent reads before acting. Contains: engine status (sleep/meds/movement), current struggles, recent wins, active focus items, and "elephant notes" — what the Elephant is gravitating toward or avoiding right now.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <div class="callout-label">How agents coordinate</div>
+      <p style="margin:0">No agent operates in isolation. They all read the same Context Brief, so if the morning rat logged that you had a rough night, the noon rat adjusts its tone. If Eden found relevant research, the evening rat might reference it. One shared brain, multiple helpful hands.</p>
+    </div>
+  </div>
 </div>
 
-<div class="step">
-  <span class="step-num">2</span>
-  <div class="step-text"><strong>Make the invisible visible.</strong> If a task isn't in your visual field, it doesn't exist. Put your todo list where you literally can't avoid seeing it. Physical sticky notes, a persistent app on your screen, a whiteboard by your desk. Out of sight = out of mind is not a saying for ADHD brains. It's a law of physics.</div>
+<!-- ══════════ SECTION: PROTOCOLS ══════════ -->
+<div class="section reveal" id="scaffolding">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span class="section-icon">🛡️</span>
+    <span class="section-title">Protocols & Cognitive Scaffolding</span>
+    <span class="section-toggle">&#9660;</span>
+  </div>
+  <div class="section-body">
+    <p>Beyond agents, SQUIP OS uses pre-loaded protocols — if-then rules designed <em>before</em> the moment hits, so the Elephant has a path ready when executive function goes offline.</p>
+
+    <div class="card" style="border-left:3px solid var(--orange)">
+      <div class="card-label" style="color:var(--orange)">🧊 Waterboarding the Elephant — Urge Reset Protocol</div>
+      <p>When an urge or craving hits, the first action is a cold water splash on the face. This isn't metaphorical — it's a physiological pattern interrupt. Cold water triggers the dive reflex, drops heart rate, and gives the Rider a 30-second window to redirect.</p>
+      <p>The protocol: <span class="hl">detect the urge → cold water on face → name the urge out loud → redirect to a pre-chosen alternative.</span> It works because the intervention is physical (no willpower needed), immediate (no decision required), and pre-loaded (you decided the response before the moment arrived).</p>
+    </div>
+
+    <div class="card" style="border-left:3px solid var(--blue)">
+      <div class="card-label" style="color:var(--blue)">🔗 Implementation Intentions</div>
+      <p>Pre-loaded if-then links that fire without conscious thought: "If I walk into my workspace → I throw away one piece of trash before sitting down." "If I feel the pull to scroll → I take 3 deep breaths first."</p>
+      <p>These work because they offload the decision from executive function to a cue-response link. The Rider builds them when it's online. They fire when it's not. The key is keeping them dead simple and practiced.</p>
+    </div>
+
+    <h3 style="color:var(--purple);margin:24px 0 12px">Classic Scaffolding Techniques</h3>
+
+    <div class="step">
+      <span class="step-num">1</span>
+      <div class="step-text"><strong>Externalize everything.</strong> Working memory is unreliable. Get tasks and commitments OUT of your head and INTO one trusted system. Not five apps. One place the Elephant knows to check.</div>
+    </div>
+    <div class="step">
+      <span class="step-num">2</span>
+      <div class="step-text"><strong>Make the invisible visible.</strong> If a task isn't in your visual field, it doesn't exist. Physical notes, persistent widgets, whiteboard by the desk. Out of sight = out of mind isn't a saying. It's a law of physics for ADHD.</div>
+    </div>
+    <div class="step">
+      <span class="step-num">3</span>
+      <div class="step-text"><strong>Separate planning from doing.</strong> Plan when executive function is online (morning, medicated). Do when it's time. Trying both at once = neither happens well.</div>
+    </div>
+    <div class="step">
+      <span class="step-num">4</span>
+      <div class="step-text"><strong>Use timers for everything.</strong> Starting (25 minutes — the Elephant can handle that). Stopping (hyperfocus eats your whole day). Transitions (external signal your internal clock can't provide).</div>
+    </div>
+    <div class="step">
+      <span class="step-num">5</span>
+      <div class="step-text"><strong>Replace notifications with polling.</strong> Turn off push notifications. Check things on YOUR schedule. Constant interruptions fragment ADHD attention even worse than neurotypical attention.</div>
+    </div>
+  </div>
 </div>
 
-<div class="step">
-  <span class="step-num">3</span>
-  <div class="step-text"><strong>Separate planning from doing.</strong> These are two completely different cognitive tasks. Plan when your executive function is online (morning, medicated, rested). Do when it's time to do. If you try to plan and execute simultaneously, neither happens well.</div>
+<!-- ══════════ SECTION: KEEP THE STOVE WARM ══════════ -->
+<div class="section reveal" id="stove">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span class="section-icon">🔥</span>
+    <span class="section-title">Keep the Stove Warm</span>
+    <span class="section-toggle">&#9660;</span>
+  </div>
+  <div class="section-body">
+    <div class="card">
+      <p>The ADHD pattern you know too well: <span class="hl">intensity spike → total crash.</span> Discover a new system, go all-in for 2 weeks, burn out, abandon it completely. The gym. The journal. The morning routine. The app.</p>
+      <p>The antidote: <strong>"Keep the stove warm."</strong> The goal is never transformation. It's trajectory. One sustainable thing beats three unsustainable things every time.</p>
+    </div>
+
+    <p>When energy is low, the question isn't "how do I get back to peak?" It's:</p>
+    <blockquote>What's the smallest thing I can do to keep the stove warm?</blockquote>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0">
+      <div class="card" style="text-align:center">
+        <div style="color:var(--red);font-size:0.8em;font-weight:700;text-transform:uppercase">Full workout?</div>
+        <div style="font-size:1.4em;margin:6px 0">→</div>
+        <div style="color:var(--green);font-weight:600">5-minute walk counts</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div style="color:var(--red);font-size:0.8em;font-weight:700;text-transform:uppercase">Write the report?</div>
+        <div style="font-size:1.4em;margin:6px 0">→</div>
+        <div style="color:var(--green);font-weight:600">Open the file counts</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div style="color:var(--red);font-size:0.8em;font-weight:700;text-transform:uppercase">Clean the kitchen?</div>
+        <div style="font-size:1.4em;margin:6px 0">→</div>
+        <div style="color:var(--green);font-weight:600">Wash one dish counts</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div style="color:var(--red);font-size:0.8em;font-weight:700;text-transform:uppercase">Perfect morning routine?</div>
+        <div style="font-size:1.4em;margin:6px 0">→</div>
+        <div style="color:var(--green);font-weight:600">Take meds + water counts</div>
+      </div>
+    </div>
+
+    <p style="color:var(--orange);font-weight:600;text-align:center;margin:20px 0">The stove stays warm. Tomorrow you add heat. You never stop.</p>
+  </div>
 </div>
 
-<div class="step">
-  <span class="step-num">4</span>
-  <div class="step-text"><strong>Use timers for everything.</strong> Starting (commit to 25 minutes — the Elephant can handle that). Stopping (hyperfocus will eat your whole day if you let it). Transitions (a timer is an external signal that your internal clock can't provide).</div>
+<!-- ══════════ SECTION: SUSTAINABILITY FILTER ══════════ -->
+<div class="section reveal" id="filter">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span class="section-icon">🔍</span>
+    <span class="section-title">The Sustainability Filter</span>
+    <span class="section-toggle">&#9660;</span>
+  </div>
+  <div class="section-body">
+    <p>Before adopting any new strategy, habit, or system, run it through these five checks:</p>
+
+    <div class="card"><div class="card-label"><span class="emoji-label">🔄</span> 1. Rubber-Banding Risk</div><p>Does this require intensity that will crash? If yes → scale to "keep the stove warm" version. The 7-day gym plan becomes 2 walks.</p></div>
+    <div class="card"><div class="card-label"><span class="emoji-label">📚</span> 2. Habit-Stacking Check</div><p>Does this compete with something more important? Don't stack changes that fight for the same psychological resources.</p></div>
+    <div class="card"><div class="card-label"><span class="emoji-label">🐘</span> 3. Elephant Tolerance</div><p>Does this require willpower to maintain? If yes → it won't survive. Redesign so the environment or a system does the work.</p></div>
+    <div class="card"><div class="card-label"><span class="emoji-label">⚡</span> 4. Engine State Check</div><p>Is your engine running? If not → only the smallest momentum-preserving action. No new things.</p></div>
+    <div class="card"><div class="card-label"><span class="emoji-label">🚪</span> 5. Friction Check</div><p>How many steps to start? If more than 2 → reduce it. The Elephant only walks toward low activation energy.</p></div>
+  </div>
 </div>
 
-<div class="step">
-  <span class="step-num">5</span>
-  <div class="step-text"><strong>Replace notifications with polling.</strong> Turn off push notifications. Check things on YOUR schedule as a deliberate action. Constant interruptions fragment ADHD attention even worse than neurotypical attention.</div>
-</div>
-
-<h2 id="stove">Keep the Stove Warm</h2>
-
-<div class="card">
-  <p>There's a pattern that ADHD brains know intimately: <span class="highlight">the intensity spike followed by the total crash.</span> You discover a new system, go all-in for 2 weeks with obsessive energy, then burn out and abandon it completely. The gym. The journal. The morning routine. The meal prep. The app.</p>
-  <p>The antidote is a principle called <strong>"keep the stove warm."</strong> The goal is never transformation. It's trajectory. One sustainable thing beats three unsustainable things every time.</p>
-  <p>When energy is low, the question isn't "how do I get back to peak performance?" It's <strong>"what's the smallest thing I can do to keep the stove warm?"</strong> Didn't do a full workout? A 5-minute walk counts. Didn't write the whole report? Opening the file counts. The stove stays warm. Tomorrow you add heat.</p>
-</div>
-
-<blockquote>As long as you're moving in a good direction and trying, that's enough. You never stop.</blockquote>
-
-<h2 id="sustainability">The Sustainability Filter</h2>
-
-<p>Before adopting any new strategy, habit, or system, run it through these five checks:</p>
-
-<div class="card">
-  <div class="card-title">1. Rubber-Banding Risk</div>
-  <p>Does this require an intensity level that will crash? If yes, adapt it to a "keep the stove warm" version. The 7-day-a-week gym plan becomes 2 walks. The perfect morning routine becomes "take meds and drink water."</p>
-</div>
-
-<div class="card">
-  <div class="card-title">2. Habit-Stacking Check</div>
-  <p>Does this compete with something more important you're already working on? Don't stack changes that fight for the same psychological resources. Priority by leverage — take the action that opens the most future good actions.</p>
-</div>
-
-<div class="card">
-  <div class="card-title">3. Elephant Tolerance</div>
-  <p>Does this require willpower to maintain? If yes, it won't survive. Redesign it so the environment or a system does the work, not your discipline.</p>
-</div>
-
-<div class="card">
-  <div class="card-title">4. Engine State Check</div>
-  <p>Is your engine running (sleep, meds, movement stable)? If not, this isn't the time for new things. Only the smallest momentum-preserving action makes sense.</p>
-</div>
-
-<div class="card">
-  <div class="card-title">5. Friction Check</div>
-  <p>How many steps does this require to start? If more than 2, reduce it. The Elephant will only walk toward things with low activation energy.</p>
-</div>
-
-<h2 id="compare">How This Compares</h2>
-
-<p>If you've read other ADHD management frameworks (like productivity-focused approaches using todo apps, energy management, or procrastination taxonomies), here's what this framework adds:</p>
-
-<div class="card">
-  <div class="card-title">Most frameworks say: "use a system"</div>
-  <p>This framework says: <strong>the system has to work WITH your neurology, not against it.</strong> A todo app is great — but if checking it daily requires willpower, the Elephant will stop checking it within a week. The system itself needs to be designed for the Elephant, not the Rider.</p>
-</div>
-
-<div class="card">
-  <div class="card-title">Most frameworks say: "manage your energy"</div>
-  <p>This framework says: <strong>energy is necessary but not sufficient.</strong> Even with good energy, the Elephant still needs a clear path, low friction, and immediate feedback. The Engine (sleep, meds, movement) creates the conditions. Environment design creates the path. Both are required.</p>
-</div>
-
-<div class="card">
-  <div class="card-title">Most frameworks say: "build habits"</div>
-  <p>This framework says: <strong>habit formation is itself a Wall of Awful for many ADHD brains.</strong> Past failed attempts at building habits create emotional resistance around the very concept. Acknowledge that. Build scaffolding first. Habits may emerge naturally from good scaffolding — but scaffolding works even when habits don't stick.</p>
-</div>
-
-<div class="card">
-  <div class="card-title">Most frameworks are written for neurotypical brains</div>
-  <p>This one isn't. Every recommendation here has been filtered through the question: <strong>"Does this require executive function I don't reliably have?"</strong> If yes, it gets redesigned until the answer is no.</p>
-</div>
-
-<div class="callout">
-  <div class="callout-label">The bottom line</div>
-  <p>You're not broken. Your brain has different hardware. The software most people use (discipline, willpower, "just do it") wasn't written for your hardware. This framework is. Build the environment. Feed the Elephant. Keep the stove warm. The rest follows.</p>
+<!-- ══════════ BOTTOM LINE ══════════ -->
+<div class="callout" style="margin-top:40px;border-color:var(--green)">
+  <div class="callout-label" style="color:var(--green)">The bottom line</div>
+  <p>You're not broken. Your brain runs on different hardware. The software most people use — discipline, willpower, "just do it" — wasn't written for your hardware. This framework is.</p>
+  <p style="margin:0"><span class="hl">Build the environment. Feed the Elephant. Automate what you can. Keep the stove warm.</span> The rest follows.</p>
 </div>
 
 <div class="footer">
   Built with care by someone who gets it.<br>
-  Inspired by Jonathan Haidt (Elephant & Rider), Russell Barkley (ADHD research), and a lot of trial and error.
+  Inspired by Jonathan Haidt, Russell Barkley, and a lot of trial and error.
 </div>
+
+</div><!-- /content -->
+
+<script>
+// ── Progress bar ──
+const progressBar = document.getElementById('progress');
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  progressBar.style.width = (window.scrollY / h * 100) + '%';
+});
+
+// ── Nav hide/show on scroll ──
+let lastY = 0;
+const nav = document.getElementById('topnav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('hidden', window.scrollY > lastY && window.scrollY > 100);
+  lastY = window.scrollY;
+});
+
+// ── Active nav pill ──
+const sections = document.querySelectorAll('.section');
+const pills = document.querySelectorAll('.nav-pill');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      pills.forEach(p => p.classList.toggle('active', p.dataset.section === e.target.id));
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+
+// ── Reveal on scroll ──
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ── Collapsible sections ──
+function toggleSection(header) {
+  const body = header.nextElementSibling;
+  const toggle = header.querySelector('.section-toggle');
+  const isCollapsed = body.classList.contains('collapsed');
+  if (isCollapsed) {
+    body.classList.remove('collapsed');
+    body.style.maxHeight = body.scrollHeight + 'px';
+    toggle.classList.remove('collapsed');
+    setTimeout(() => body.style.maxHeight = 'none', 400);
+  } else {
+    body.style.maxHeight = body.scrollHeight + 'px';
+    requestAnimationFrame(() => {
+      body.style.maxHeight = body.scrollHeight + 'px';
+      requestAnimationFrame(() => {
+        body.classList.add('collapsed');
+        toggle.classList.add('collapsed');
+      });
+    });
+  }
+}
+
+// ── Tabs ──
+function switchTab(btn, group) {
+  const container = btn.closest('.tabs');
+  container.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const panels = container.querySelectorAll('.tab-panel');
+  const idx = Array.from(container.querySelectorAll('.tab-btn')).indexOf(btn);
+  panels.forEach((p, i) => p.classList.toggle('active', i === idx));
+}
+
+// ── Quiz ──
+function quizAnswer(btn, correct) {
+  const quiz = btn.closest('.quiz');
+  if (quiz.classList.contains('answered')) return;
+  quiz.classList.add('answered');
+  quiz.querySelectorAll('.quiz-opt').forEach(o => {
+    o.style.pointerEvents = 'none';
+    if (o === btn) o.classList.add(correct ? 'correct' : 'wrong');
+  });
+  // Highlight correct if wrong was picked
+  if (!correct) {
+    quiz.querySelectorAll('.quiz-opt').forEach(o => {
+      if (o.getAttribute('onclick')?.includes('true')) o.classList.add('correct');
+    });
+  }
+  quiz.querySelector('.quiz-explain').classList.add('show');
+}
+
+// ── Init section bodies with proper max-height ──
+document.querySelectorAll('.section-body').forEach(b => b.style.maxHeight = 'none');
+</script>
 
 </body>
 </html>
