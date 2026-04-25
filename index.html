@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Elephant & The Rider — An ADHD Framework That Actually Works</title>
-<meta name="description" content="A practical ADHD management framework built on environment design, not willpower. Includes the Elephant & Rider model, The Engine, SQUIP OS agent system, and why most self-help advice fails ADHD brains.">
+<title>The Elephant & The Rider — ADHD Framework + SQUIP OS (with Eden)</title>
+<meta name="description" content="ADHD framework built on environment design over willpower — Elephant & Rider model, The Engine, plus SQUIP OS, the AI-agent operating system Toby actually runs daily. Eden is the highest-leverage agent. 4-min podcast with Eden & Andrew, then the full doc.">
 <style>
   :root {
     --bg: #0d1117; --bg2: #161b22; --bg3: #1c2128;
@@ -196,6 +196,127 @@
   /* ── Scroll animations ── */
   .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.5s, transform 0.5s; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ── Podcast hero (NEW — replaces old audio-banner) ── */
+  .podcast-hero {
+    background:
+      radial-gradient(circle at 20% 0%, rgba(63,185,80,0.18), transparent 50%),
+      radial-gradient(circle at 80% 100%, rgba(211,168,255,0.18), transparent 50%),
+      linear-gradient(135deg, rgba(31,111,235,0.12), rgba(63,185,80,0.06));
+    border: 1px solid var(--green); border-radius: 16px;
+    padding: 28px 24px; margin: 24px 0 36px; position: relative;
+  }
+  .podcast-hero::before {
+    content: ""; position: absolute; top: -1px; left: -1px; right: -1px; bottom: -1px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(63,185,80,0.4), rgba(211,168,255,0.3), rgba(31,111,235,0.3));
+    z-index: -1; filter: blur(16px); opacity: 0.5;
+  }
+  .podcast-hero .ph-row { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; flex-wrap: wrap; }
+  .podcast-hero .ph-leaf { font-size: 2.2em; }
+  .podcast-hero .ph-meta { flex: 1; min-width: 200px; }
+  .podcast-hero .ph-label {
+    color: var(--green); font-weight: 700; font-size: 0.78em; letter-spacing: 1.5px;
+    text-transform: uppercase; margin-bottom: 2px;
+  }
+  .podcast-hero .ph-title { color: var(--text); font-size: 1.05em; font-weight: 600; line-height: 1.4; }
+  .podcast-hero .ph-sub { color: var(--text-dim); font-size: 0.82em; margin-top: 2px; }
+  .podcast-hero audio { width: 100%; border-radius: 8px; }
+  .podcast-hero .ph-hosts {
+    display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; font-size: 0.78em; color: var(--text-dim);
+  }
+  .podcast-hero .ph-host { display: inline-flex; align-items: center; gap: 6px; background: var(--bg2); padding: 4px 10px; border-radius: 12px; }
+  .podcast-hero .ph-dot-eden { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
+  .podcast-hero .ph-dot-andrew { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); }
+
+  /* ── Sticky mini-player (NEW) ── */
+  #miniplayer {
+    position: fixed; bottom: 18px; right: 18px; z-index: 998;
+    background: var(--bg3); border: 1px solid var(--green); border-radius: 28px;
+    padding: 8px 14px 8px 8px; display: flex; align-items: center; gap: 10px;
+    box-shadow: 0 6px 28px rgba(0,0,0,0.5), 0 0 0 1px rgba(63,185,80,0.2);
+    transform: translateY(120%); transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+    cursor: pointer; user-select: none; max-width: 320px;
+  }
+  #miniplayer.show { transform: translateY(0); }
+  #miniplayer .mp-btn {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--green), var(--blue));
+    color: #0d1117; font-size: 0.9em; display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; font-weight: 700;
+  }
+  #miniplayer .mp-text { font-size: 0.78em; line-height: 1.3; }
+  #miniplayer .mp-title { color: var(--text); font-weight: 600; }
+  #miniplayer .mp-sub { color: var(--text-dim); font-size: 0.92em; margin-top: 1px; }
+  @media (max-width: 600px) { #miniplayer { left: 18px; right: 18px; max-width: none; } }
+
+  /* ── Eden hero (NEW) ── */
+  .eden-hero {
+    background: linear-gradient(135deg, rgba(63,185,80,0.1), rgba(31,111,235,0.05));
+    border: 1px solid var(--green); border-radius: 14px;
+    padding: 26px 24px; margin: 18px 0 24px; position: relative; overflow: hidden;
+  }
+  .eden-hero::before {
+    content: "🌿"; position: absolute; top: -20px; right: -20px;
+    font-size: 8em; opacity: 0.07; transform: rotate(15deg);
+  }
+  .eden-hero h3 { color: var(--green); font-size: 1.4em; margin-bottom: 4px; }
+  .eden-hero .eden-tag { color: var(--text-dim); font-size: 0.85em; margin-bottom: 14px; }
+  .eden-hero .eden-leverage {
+    display: inline-block; background: rgba(63,185,80,0.15); color: var(--green);
+    padding: 3px 12px; border-radius: 12px; font-size: 0.75em; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;
+  }
+
+  /* Eden timeline */
+  .eden-timeline { margin: 18px 0; border-left: 2px dashed var(--green); padding-left: 22px; }
+  .eden-step { position: relative; padding-bottom: 14px; }
+  .eden-step::before {
+    content: ""; position: absolute; left: -29px; top: 6px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--bg); border: 2px solid var(--green);
+  }
+  .eden-step-time { color: var(--green); font-weight: 700; font-size: 0.82em; font-family: ui-monospace, monospace; }
+  .eden-step-text { color: var(--text-dim); font-size: 0.92em; margin-top: 2px; line-height: 1.5; }
+
+  /* Eden domain pills */
+  .eden-domains { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0; }
+  .eden-domain {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 18px;
+    padding: 6px 14px; font-size: 0.82em; cursor: pointer; transition: all 0.2s;
+    color: var(--text-dim);
+  }
+  .eden-domain:hover, .eden-domain.active { background: var(--green); color: #0d1117; border-color: var(--green); font-weight: 600; }
+  .eden-domain-detail {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 16px; margin-top: 10px; font-size: 0.92em; color: var(--text-dim);
+    display: none; animation: fadeIn 0.3s;
+  }
+  .eden-domain-detail.show { display: block; }
+  .eden-domain-detail strong { color: var(--text); }
+
+  /* Eden filter (sustainability) */
+  .eden-filter { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin: 14px 0; }
+  @media (max-width: 600px) { .eden-filter { grid-template-columns: 1fr 1fr; } }
+  .eden-gate {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 8px; text-align: center; font-size: 0.74em; color: var(--text-dim);
+  }
+  .eden-gate-icon { font-size: 1.4em; display: block; margin-bottom: 4px; }
+  .eden-gate-name { color: var(--text); font-weight: 600; font-size: 0.9em; }
+
+  /* ── Agent search (NEW) ── */
+  .agent-search-row { display: flex; gap: 8px; margin: 12px 0 16px; flex-wrap: wrap; }
+  #agent-search {
+    flex: 1; min-width: 200px;
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 14px; color: var(--text); font-size: 0.92em; font-family: inherit;
+    outline: none; transition: border-color 0.2s;
+  }
+  #agent-search:focus { border-color: var(--blue); }
+  #agent-search::placeholder { color: var(--text-muted); }
+  .agent-card.hidden { display: none; }
+  .agent-card.match-highlight { border-color: var(--yellow); }
 </style>
 </head>
 <body>
@@ -211,6 +332,7 @@
     <a class="nav-pill" href="#doesnt" data-section="doesnt">What Doesn't</a>
     <a class="nav-pill" href="#wall" data-section="wall">Wall of Awful</a>
     <a class="nav-pill" href="#squip" data-section="squip">SQUIP OS</a>
+    <a class="nav-pill" href="#eden" data-section="eden" style="border-color:var(--green);color:var(--green)">🌿 Eden</a>
     <a class="nav-pill" href="#agents" data-section="agents">The Agents</a>
     <a class="nav-pill" href="#scaffolding" data-section="scaffolding">Scaffolding</a>
     <a class="nav-pill" href="#stove" data-section="stove">Stove Warm</a>
@@ -227,14 +349,25 @@
   <span class="read-time">~15 min read &middot; Collapsible sections &middot; Click around</span>
 </div>
 
-<!-- ══════════ AUDIO ══════════ -->
-<div class="audio-banner">
-  <div class="label">Listen Instead</div>
-  <div class="desc">This whole framework as a two-host conversation (~18 min). Hit play and scroll along, or just listen.</div>
-  <audio controls preload="metadata">
+<!-- ══════════ PODCAST HERO ══════════ -->
+<div class="podcast-hero">
+  <div class="ph-row">
+    <span class="ph-leaf">🌿</span>
+    <div class="ph-meta">
+      <div class="ph-label">▶ Listen — 4 min</div>
+      <div class="ph-title">The Elephant & The Rider — and the agents that actually run it</div>
+      <div class="ph-sub">A short walk-through with Eden, Tobias's research-garden agent, and her co-host Andrew.</div>
+    </div>
+  </div>
+  <audio id="main-audio" controls preload="metadata">
     <source src="podcast.mp3" type="audio/mpeg">
     Your browser doesn't support audio. <a href="podcast.mp3">Download the MP3</a>.
   </audio>
+  <div class="ph-hosts">
+    <span class="ph-host"><span class="ph-dot-eden"></span>Eden &nbsp;<span style="color:var(--text-muted);font-family:ui-monospace,monospace">en-US-AvaMultilingual</span></span>
+    <span class="ph-host"><span class="ph-dot-andrew"></span>Andrew &nbsp;<span style="color:var(--text-muted);font-family:ui-monospace,monospace">en-US-AndrewMultilingual</span></span>
+    <span class="ph-host" style="background:transparent;border:1px dashed var(--border);color:var(--text-muted)">Generated free via Edge TTS · NotebookLM-style</span>
+  </div>
 </div>
 
 <div class="callout">
@@ -503,6 +636,78 @@
   </div>
 </div>
 
+<!-- ══════════ SECTION: EDEN (HERO TREATMENT) ══════════ -->
+<div class="section reveal" id="eden">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span class="section-icon">🌿</span>
+    <span class="section-title">Eden — The Research Garden</span>
+    <span class="section-toggle">&#9660;</span>
+  </div>
+  <div class="section-body">
+    <div class="eden-hero">
+      <span class="eden-leverage">Highest-leverage agent · Toby's favorite</span>
+      <h3>She's the one looking past today.</h3>
+      <p class="eden-tag">The rest of the crew handles the present moment — meds, walks, wind-down. Eden handles the future. She's the apple-finder.</p>
+      <p>Every morning before Toby wakes up, Eden runs autonomously. She reads his current engine state, his therapist's latest notes, his Eisenhower Matrix, and his calendar. Then she dives into the latest ADHD research, recovery science, automation patterns, and sleep/meds/movement studies — and decides whether anything she found is worth surfacing <em>today</em>.</p>
+      <p style="color:var(--green);font-weight:600;margin:0">Most days she finds interesting things and stays quiet. That's the point. The Elephant gets bombarded all day. The last thing it needs is another loud voice.</p>
+    </div>
+
+    <h3 style="color:var(--green);margin:24px 0 10px;font-size:1.1em">A day in Eden's garden</h3>
+    <div class="eden-timeline">
+      <div class="eden-step">
+        <div class="eden-step-time">04:30 · wake</div>
+        <div class="eden-step-text">She fires before Toby's alarm. No human input — just a scheduled task.</div>
+      </div>
+      <div class="eden-step">
+        <div class="eden-step-time">04:32 · read state</div>
+        <div class="eden-step-text">Pulls the Current Context Brief, the active task matrix, today's calendar, and any new email from Toby's therapist.</div>
+      </div>
+      <div class="eden-step">
+        <div class="eden-step-time">04:40 · research</div>
+        <div class="eden-step-text">Web search across 4 domains. 2026 papers, fresh community discussions, edge-case protocols.</div>
+      </div>
+      <div class="eden-step">
+        <div class="eden-step-time">05:00 · sustainability filter</div>
+        <div class="eden-step-text">5 gates: rubber-banding risk, habit-stacking conflict, elephant tolerance, engine state, friction. Most ideas die here. By design.</div>
+      </div>
+      <div class="eden-step">
+        <div class="eden-step-time">05:15 · decide</div>
+        <div class="eden-step-text">Groundbreaking + applicable today + fits this week's engine? She ships an HTML roadmap + a 4-min podcast straight to Telegram. Otherwise: log quietly, move on.</div>
+      </div>
+      <div class="eden-step">
+        <div class="eden-step-time">05:30 · the apple (or the silence)</div>
+        <div class="eden-step-text">Toby wakes to one apple, or to nothing. Both are signals he can trust.</div>
+      </div>
+    </div>
+
+    <h3 style="color:var(--green);margin:24px 0 10px;font-size:1.1em">What she researches — tap to expand</h3>
+    <div class="eden-domains">
+      <span class="eden-domain" onclick="toggleEdenDomain(this,'d1')">🧠 ADHD &amp; habit science</span>
+      <span class="eden-domain" onclick="toggleEdenDomain(this,'d2')">🧘 Recovery &amp; addiction</span>
+      <span class="eden-domain" onclick="toggleEdenDomain(this,'d3')">🤖 Agents &amp; automation</span>
+      <span class="eden-domain" onclick="toggleEdenDomain(this,'d4')">😴 Sleep, meds, movement</span>
+    </div>
+    <div class="eden-domain-detail" id="d1"><strong>ADHD &amp; habit science.</strong> Sustainable habit formation, dopamine regulation, executive-function scaffolding. Eden filters out neurotypical self-help by default — it has to be ADHD-specific or it doesn't pass.</div>
+    <div class="eden-domain-detail" id="d2"><strong>Recovery &amp; addiction.</strong> Behavioral-loop research, environment design for relapse prevention, Russell-Barkley-grade evidence over influencer protocols. She reads what Toby's therapist writes and aligns research with active treatment direction.</div>
+    <div class="eden-domain-detail" id="d3"><strong>Agents &amp; automation.</strong> New Claude patterns, Cowork skills, scheduled-task ideas. She finds the next agent Toby could build before Toby thinks of it. Many of the SQUIP OS components she suggested first.</div>
+    <div class="eden-domain-detail" id="d4"><strong>Sleep, meds, movement.</strong> Adderall timing, BP/HR drift, sleep-debt research, low-friction movement. The pillars of the engine — stay current on what's working in 2026, not 2018.</div>
+
+    <h3 style="color:var(--green);margin:24px 0 10px;font-size:1.1em">The 5 gates every idea has to pass</h3>
+    <div class="eden-filter">
+      <div class="eden-gate"><span class="eden-gate-icon">🔄</span><span class="eden-gate-name">Rubber-band</span><br>Will this crash?</div>
+      <div class="eden-gate"><span class="eden-gate-icon">📚</span><span class="eden-gate-name">Stacking</span><br>Conflicts?</div>
+      <div class="eden-gate"><span class="eden-gate-icon">🐘</span><span class="eden-gate-name">Elephant</span><br>Will it walk?</div>
+      <div class="eden-gate"><span class="eden-gate-icon">⚡</span><span class="eden-gate-name">Engine</span><br>Running?</div>
+      <div class="eden-gate"><span class="eden-gate-icon">🚪</span><span class="eden-gate-name">Friction</span><br>≤2 steps?</div>
+    </div>
+
+    <div class="callout" style="border-color:var(--green);background:rgba(63,185,80,0.06)">
+      <div class="callout-label" style="color:var(--green)">Why she's the highest leverage</div>
+      <p style="margin:0">Reminders happen on a clock. Research happens because Eden chose to. She surfaces things Toby <em>didn&#39;t know he didn&#39;t know</em> — meds-timing studies, automation patterns, recovery research — without ever being asked. The other agents help him operate. Eden helps him evolve.</p>
+    </div>
+  </div>
+</div>
+
 <!-- ══════════ SECTION: THE AGENTS ══════════ -->
 <div class="section reveal" id="agents">
   <div class="section-header" onclick="toggleSection(this)">
@@ -511,19 +716,10 @@
     <span class="section-toggle">&#9660;</span>
   </div>
   <div class="section-body">
-    <p>These are the AI agents that actually run the system. Each one has a specific job, reads the shared context, and coordinates with the others so nothing overlaps or contradicts.</p>
+    <p>These are the supporting agents — Eden's crewmates. (Eden has her own section above.) Each has a specific job, reads the shared context, and coordinates with the others so nothing overlaps or contradicts.</p>
 
-    <div class="agent-grid">
-      <div class="agent-card" style="grid-column: 1 / -1; border-top: 3px solid var(--green);">
-        <div class="agent-name"><span style="font-size:1.3em">🌿</span> Eden — The Research Garden</div>
-        <div class="agent-role">Highest-leverage agent. Autonomous daily researcher.</div>
-        <div class="agent-desc">
-          <p>Eden runs every morning on autopilot. It searches the latest ADHD science, recovery research, sleep optimization studies, and automation ideas — then filters everything through a sustainability check before deciding if it's worth sharing.</p>
-          <p>Most days, Eden finds interesting things but stays quiet — only messaging when something is genuinely groundbreaking and applicable <em>that day</em>. It reads your current state, your therapist's latest notes, your recent wins and struggles, and uses all of that to decide what research matters right now.</p>
-          <p>Eden is named after the Garden of Eden — where one goes to find apples of knowledge. It doesn't push. It doesn't nag. It places apples in the Elephant's path and lets you decide what to pick up.</p>
-          <p style="color:var(--green);font-weight:600;margin:0">Why it's the highest leverage: Eden surfaces things you didn't know you didn't know. It's found medication timing research, specific exercise protocols for ADHD, and automation ideas that saved hours — all without being asked.</p>
-        </div>
-      </div>
+    <div class="agent-search-row">
+      <input id="agent-search" type="text" placeholder="🔎 Search agents (e.g. 'sleep', 'rats', 'context')..." oninput="filterAgents(this.value)">
     </div>
 
     <div class="agent-grid">
@@ -777,7 +973,77 @@ function quizAnswer(btn, correct) {
 
 // ── Init section bodies with proper max-height ──
 document.querySelectorAll('.section-body').forEach(b => b.style.maxHeight = 'none');
+
+// ── Mini-player: appears once user scrolls past the podcast hero ──
+const mini = document.getElementById('miniplayer');
+const audio = document.getElementById('main-audio');
+const podcastHero = document.querySelector('.podcast-hero');
+function updateMini() {
+  if (!mini || !podcastHero) return;
+  const heroBottom = podcastHero.getBoundingClientRect().bottom;
+  if (heroBottom < 0 && !audio?.paused) {
+    mini.classList.add('show');
+  } else if (heroBottom > 100 || audio?.paused) {
+    mini.classList.remove('show');
+  }
+}
+window.addEventListener('scroll', updateMini, { passive: true });
+audio?.addEventListener('play', () => { setTimeout(updateMini, 50); });
+audio?.addEventListener('pause', () => mini.classList.remove('show'));
+
+function scrollToPodcast() {
+  podcastHero?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  if (audio?.paused) audio.play().catch(() => {});
+}
+
+// ── Eden domain expansions ──
+function toggleEdenDomain(el, id) {
+  const detail = document.getElementById(id);
+  const wasActive = el.classList.contains('active');
+  document.querySelectorAll('.eden-domain').forEach(d => d.classList.remove('active'));
+  document.querySelectorAll('.eden-domain-detail').forEach(d => d.classList.remove('show'));
+  if (!wasActive) {
+    el.classList.add('active');
+    detail.classList.add('show');
+  }
+}
+
+// ── Agent search filter ──
+function filterAgents(query) {
+  const q = query.trim().toLowerCase();
+  const cards = document.querySelectorAll('#agents .agent-card');
+  cards.forEach(c => {
+    const text = c.textContent.toLowerCase();
+    const matches = !q || text.includes(q);
+    c.classList.toggle('hidden', !matches);
+    c.classList.toggle('match-highlight', !!q && matches);
+  });
+}
+
+// ── Keyboard shortcuts ──
+document.addEventListener('keydown', e => {
+  // Space to play/pause when not in an input
+  if (e.code === 'Space' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA' && document.activeElement.tagName !== 'BUTTON' && audio) {
+    e.preventDefault();
+    audio.paused ? audio.play() : audio.pause();
+  }
+  // / to focus agent search
+  if (e.key === '/' && document.activeElement.tagName !== 'INPUT') {
+    e.preventDefault();
+    document.getElementById('agent-search')?.focus();
+  }
+});
 </script>
+
+
+<!-- ══════════ STICKY MINI-PLAYER ══════════ -->
+<div id="miniplayer" onclick="scrollToPodcast()">
+  <div class="mp-btn">▶</div>
+  <div class="mp-text">
+    <div class="mp-title">🌿 Eden &amp; Andrew</div>
+    <div class="mp-sub">Tap to play · 4 min</div>
+  </div>
+</div>
 
 </body>
 </html>
