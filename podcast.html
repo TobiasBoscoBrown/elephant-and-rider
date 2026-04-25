@@ -26,14 +26,29 @@
     color: #484f58; font-size: 0.8em; margin-top: 48px; text-align: center;
     border-top: 1px solid #21262d; padding-top: 16px;
   }
+  .audio-banner {
+    background: linear-gradient(135deg, rgba(31,111,235,0.15), rgba(211,168,255,0.1));
+    border: 1px solid #1f6feb; border-radius: 12px;
+    padding: 20px; margin: 0 0 30px; text-align: center;
+  }
+  .audio-banner .label { color: #58a6ff; font-weight: 700; font-size: 0.85em; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 10px; }
+  .audio-banner audio { width: 100%; max-width: 500px; border-radius: 8px; }
 </style>
 </head>
 <body>
 
 <h1>The Elephant & The Rider</h1>
-<p class="subtitle">ADHD Without the Bullshit — A Podcast Script<br>
-~14 min · Two-host conversational format<br>
-<em>Feed into NotebookLM for auto-generated audio, or record with two voices.</em></p>
+<p class="subtitle">ADHD Without the Bullshit — A Podcast<br>
+~18 min · Two hosts · Seven segments<br>
+<a href="index.html" style="color:#58a6ff">Back to the full framework</a></p>
+
+<div class="audio-banner">
+  <div class="label">Listen</div>
+  <audio controls preload="metadata">
+    <source src="podcast.mp3" type="audio/mpeg">
+    Your browser doesn't support audio. <a href="podcast.mp3">Download the MP3</a>.
+  </audio>
+</div>
 
 <div class="segment-label">Cold Open (45 sec)</div>
 
@@ -47,7 +62,7 @@
 <p class="dialogue">Oh, absolutely. "Just be consistent." "Motivation is fleeting, discipline is forever." "Atomic Habits, bro." And I'm sitting there thinking — I have tried everything these people are saying and none of it works for more than two weeks.</p>
 
 <p class="speaker host-b">SAM:</p>
-<p class="dialogue">Because all of that advice was written for a brain you don't have. Today we're going to talk about a framework that was built specifically for ADHD brains — one that doesn't rely on willpower, doesn't moralize, and actually accounts for the fact that your executive function goes offline at 9pm.</p>
+<p class="dialogue">Because all of that advice was written for a brain you don't have. Today we're talking about a framework built specifically for ADHD brains — one that doesn't rely on willpower, doesn't moralize, and actually accounts for the fact that your executive function goes offline at 9pm. And we're going to go beyond the theory into something wild — an actual operating system built from AI agents that runs this framework automatically.</p>
 
 <div class="segment-label">Segment 1: The Model (3 min)</div>
 
@@ -61,7 +76,7 @@
 <p class="dialogue">Which is why "just don't look at your phone" fails at 11pm. By that point, the Elephant is already moving. The Rider is just along for the ride, feeling guilty about where they're going.</p>
 
 <p class="speaker host-b">SAM:</p>
-<p class="dialogue">So if the Rider can't overpower the Elephant, what can it do? Design the environment. The Rider's real power isn't strength — it's foresight. You set up the path before the Elephant starts walking. Put the phone in another room at 9pm. Set the glass of water out the night before. Open the work file before you sit down. The Rider plans in the morning when executive function is online. The Elephant walks the path at night.</p>
+<p class="dialogue">So if the Rider can't overpower the Elephant, what can it do? Design the environment. The Rider's real power isn't strength — it's foresight. You set up the path before the Elephant starts walking. Put the phone in another room at 9pm. Set the glass of water out the night before. The Rider plans in the morning when executive function is online. The Elephant walks the path at night.</p>
 
 <p class="speaker host-a">ALEX:</p>
 <p class="dialogue">It's the difference between "resist the thing" and "make the thing harder to reach." The first one fails. The second one works because you're not fighting your own brain — you're redirecting it.</p>
@@ -69,99 +84,128 @@
 <div class="segment-label">Segment 2: The Engine (2.5 min)</div>
 
 <p class="speaker host-b">SAM:</p>
-<p class="dialogue">Before we get to tactics, there's a foundation layer this framework calls "The Engine." Three pillars: sleep, meds, and movement. And the rule is dead simple — when the engine is running, everything else gets easier. When it's down, lower the bar. Don't raise it.</p>
+<p class="dialogue">Before we get to tactics, there's a foundation layer called "The Engine." Three pillars: sleep, meds, and movement. The rule is dead simple — when the engine is running, everything else gets easier. When it's down, lower the bar. Don't raise it.</p>
 
 <p class="speaker host-a">ALEX:</p>
-<p class="dialogue">Sleep is the engine core. And here's something most people don't know: ADHD brains typically need 8.5 to 9.5 hours. Not 7. Not 8. Like, the research says ADHD adults genuinely need more sleep than neurotypical adults because sleep is when executive function repairs itself. So if you're sleeping 6 hours and wondering why you can't start anything, that's not a willpower problem. That's a hardware problem.</p>
+<p class="dialogue">Sleep is the engine core. ADHD brains typically need 8.5 to 9.5 hours. Not 7. Not 8. The research says ADHD adults genuinely need more sleep than neurotypical adults because sleep is when executive function repairs itself. If you're sleeping 6 hours and wondering why you can't start anything, that's not a willpower problem. That's a hardware problem.</p>
 
 <p class="speaker host-b">SAM:</p>
-<p class="dialogue">Meds are the second pillar. And the framework is blunt about this: if you're prescribed medication, it's not a crutch. It's infrastructure. It restores executive function that is otherwise genuinely offline. You wouldn't tell someone with glasses that they're "cheating at seeing." Same thing.</p>
+<p class="dialogue">Meds are the second pillar. The framework is blunt: if you're prescribed medication, it's not a crutch. It's infrastructure. It restores executive function that is otherwise genuinely offline. You wouldn't tell someone with glasses they're "cheating at seeing."</p>
 
 <p class="speaker host-a">ALEX:</p>
-<p class="dialogue">And movement is the third. This one has some of the strongest research backing — Russell Barkley's work shows exercise is one of the most effective non-pharmaceutical interventions for ADHD. But here's the thing: it doesn't have to be the gym. A walk counts. A bike ride counts. Whatever form of movement the Elephant actually enjoys — protect that. If the Elephant hates it, it won't survive.</p>
+<p class="dialogue">And movement is the third. Russell Barkley's work shows exercise is one of the most effective non-pharmaceutical interventions for ADHD. But it doesn't have to be the gym. A walk counts. A bike ride counts. Whatever form the Elephant actually enjoys — protect that.</p>
 
 <p class="speaker host-b">SAM:</p>
-<p class="dialogue">And when the engine is down — when you haven't slept, you're off meds, you haven't moved — the framework says your only job is the smallest possible action to get it running again. Not the optimal action. The smallest one. Take the pill. Go on a 5-minute walk. Get in bed. That's it.</p>
+<p class="dialogue">And when the engine is down — when you haven't slept, you're off meds, you haven't moved — your only job is the smallest possible action to get it running again. Not the optimal action. The smallest one. Take the pill. Walk 5 minutes. Get in bed. That's it.</p>
 
-<div class="segment-label">Segment 3: What Works, What Doesn't (3.5 min)</div>
+<div class="segment-label">Segment 3: What Works, What Doesn't (3 min)</div>
 
 <p class="speaker host-a">ALEX:</p>
-<p class="dialogue">OK so let's get into the stuff that's different from standard productivity advice. The framework has this very clear list of what works and what doesn't for ADHD brains, and some of it is counterintuitive.</p>
+<p class="dialogue">The biggest one that surprises people: importance is not a motivator. Most people hear "this matters" and it helps them start. ADHD brains hear "this matters" and the stakes go UP, anxiety goes UP, avoidance goes UP. Telling yourself "I really need to do my taxes" makes it harder, not easier.</p>
 
 <p class="speaker host-b">SAM:</p>
-<p class="dialogue">The biggest one: importance is not a motivator. Most people hear "this matters" and it helps them start. ADHD brains hear "this matters" and the stakes go UP, the anxiety goes UP, the avoidance goes UP. Telling yourself "I really need to do my taxes" does not make it easier. It makes the Wall of Awful taller.</p>
+<p class="dialogue">That connects to the Wall of Awful. Some tasks accumulate layers of emotional resistance over time. Every time you failed at it before, every time you felt bad about not doing it — that's a brick in the wall. The task might take 5 minutes. But the wall between you and the task makes it feel like Everest.</p>
 
 <p class="speaker host-a">ALEX:</p>
-<p class="dialogue">The Wall of Awful — that's a great concept from this framework. Some tasks accumulate layers of emotional resistance over time. Every time you failed at it before, every time you felt bad about not doing it — that's a brick in the wall. The task itself might take 5 minutes. But the wall of shame and avoidance and past failure sitting between you and the task makes it feel like climbing Everest.</p>
+<p class="dialogue">And the solution is never "just do it." It's finding a sideways entry point. A related but different version. Doing it with someone else. Sometimes just naming the wall out loud shrinks it. "I'm not afraid of this email. I'm afraid of the 47 emails I didn't answer before it."</p>
 
 <p class="speaker host-b">SAM:</p>
-<p class="dialogue">And the solution to the Wall of Awful is never "just do it." That's like saying "just climb Everest." The solution is finding a sideways entry point. Do a related but different version. Do it with someone else — body doubling. Sometimes just naming the wall out loud shrinks it. "I'm not actually afraid of this email. I'm afraid of the 47 emails I didn't answer before it."</p>
-
-<p class="speaker host-a">ALEX:</p>
-<p class="dialogue">Another big one: habit stacking doesn't work for ADHD brains the way it does for neurotypical ones. The "change 5 things at once" approach splits your limited psychological resources and usually collapses ALL of them. The framework says: one high-leverage change at a time. Get it stable. Then add the next.</p>
-
-<p class="speaker host-b">SAM:</p>
-<p class="dialogue">And here's one that took me a long time to accept: willpower-based approaches fail late in the day. Period. By 9pm, executive function is largely offline. Any system that relies on you making good decisions at 11pm is a system designed to fail. The framework says move the intervention earlier. The Rider plans in the morning. Environmental barriers get set up at 8pm. By the time the Elephant is running, the path is already built.</p>
-
-<p class="speaker host-a">ALEX:</p>
-<p class="dialogue">So what DOES work? Environment design over willpower, always. Breaking tasks into elephant-sized pieces — "open the file" instead of "work on the project." Systems that run without you — automation, auto-pay, pre-set routines. Gamification — the Elephant loves points, streaks, feedback loops. And body doubling — just having another person present while you work lowers the activation energy to start.</p>
+<p class="dialogue">What DOES work: environment design, always. Elephant-sized pieces — "open the file" not "work on the project." Systems that run without you. Gamification — points, streaks, character personas. And body doubling — having another person present while you work.</p>
 
 <div class="segment-label">Segment 4: Keep the Stove Warm (2 min)</div>
 
+<p class="speaker host-a">ALEX:</p>
+<p class="dialogue">There's a pattern every ADHD person knows. You discover something new and go ALL IN for 2 weeks. Then you burn out completely. The gym membership collects dust. The journal goes blank. And the shame makes it harder to try again.</p>
+
 <p class="speaker host-b">SAM:</p>
-<p class="dialogue">There's a pattern that every ADHD person knows. You discover something — a new system, a new app, a gym routine — and you go ALL IN. Like, obsessively all-in for 2 weeks. Then you burn out completely and abandon it. The gym membership collects dust. The journal goes blank. The app gets deleted. And then the shame hits, which makes it even harder to try again.</p>
+<p class="dialogue">The framework calls this rubber-banding. You stretch too far and snap back to zero. Or worse than zero, because now you've added bricks to the Wall of Awful.</p>
 
 <p class="speaker host-a">ALEX:</p>
-<p class="dialogue">The framework calls this "rubber-banding." You stretch too far, too fast, and snap back to zero. Or worse than zero, because now you've added bricks to the Wall of Awful around that activity.</p>
+<p class="dialogue">The antidote is "keep the stove warm." The goal is never transformation — it's trajectory. When energy is low, the question is: what's the smallest thing I can do to keep the stove warm? Didn't work out? A 5-minute walk. Didn't write the report? Opening the file. The stove stays warm. Tomorrow you add heat. You never stop.</p>
+
+<div class="segment-label">Segment 5: SQUIP OS — The Operating System (3.5 min)</div>
 
 <p class="speaker host-b">SAM:</p>
-<p class="dialogue">The antidote is a principle called "keep the stove warm." The goal is never transformation. It's trajectory. One sustainable thing beats three unsustainable things every time. When energy is low, the question isn't "how do I get back to peak?" It's "what's the smallest thing I can do to keep the stove warm?"</p>
+<p class="dialogue">OK so here's where this gets really interesting. Everything we've talked about so far is the theory. The Elephant and the Rider, the Engine, environment design — that's the framework. But the person who built this went a step further and asked: what if the framework ran itself?</p>
 
 <p class="speaker host-a">ALEX:</p>
-<p class="dialogue">Didn't do a full workout? A 5-minute walk counts. The stove stays warm. Didn't write the whole report? Opening the file counts. Didn't clean the whole kitchen? Washing one dish counts. The stove stays warm. And tomorrow, you add heat.</p>
+<p class="dialogue">Right. Because the fundamental problem with any ADHD management system is that it requires an ADHD brain to run it. And that's the brain that has trouble initiating, remembering, and following through on exactly these kinds of things.</p>
 
 <p class="speaker host-b">SAM:</p>
-<p class="dialogue">The core commitment is: as long as you're moving in a good direction and trying, that's enough. You never stop. You might slow down to a crawl some days. But the stove stays warm.</p>
-
-<div class="segment-label">Segment 5: The Sustainability Filter (2 min)</div>
+<p class="dialogue">So they built something called SQUIP OS — basically an operating system made of AI agents that implements the framework automatically. The system runs itself. The human just shows up.</p>
 
 <p class="speaker host-a">ALEX:</p>
-<p class="dialogue">The last piece I want to cover is something the framework calls the Sustainability Filter. Before you adopt any new strategy, habit, or system, you run it through five checks.</p>
+<p class="dialogue">Walk me through how it works.</p>
 
 <p class="speaker host-b">SAM:</p>
-<p class="dialogue">First: rubber-banding risk. Does this require intensity that will crash? If yes, scale it down to a "keep the stove warm" version. The 7-day gym plan becomes 2 walks.</p>
+<p class="dialogue">There are four layers. First, an identity document that defines who you are — your patterns, what works, what doesn't. Every agent reads this before doing anything. Second, a dynamic state document — the Current Context Brief — that tracks how you're actually doing right now. Engine status, current struggles, recent wins. Third, a fleet of AI agents that read both documents and deliver the right nudge at the right time. And fourth, pre-loaded protocols — automatic responses to specific triggers.</p>
 
 <p class="speaker host-a">ALEX:</p>
-<p class="dialogue">Second: habit-stacking check. Does this compete with something more important you're already working on? If yes, shelve it. Don't stack changes that fight for the same psychological resources.</p>
+<p class="dialogue">So the agents know your state before they talk to you?</p>
 
 <p class="speaker host-b">SAM:</p>
-<p class="dialogue">Third: Elephant tolerance. Does this require willpower to maintain? If yes, it won't survive. Redesign it so the environment does the work.</p>
+<p class="dialogue">Exactly. Imagine the difference between a phone alarm that says "take your meds" — which you've been ignoring for 6 months — versus an AI agent that knows you had a rough morning, knows you're running on 5 hours of sleep, and adjusts its message accordingly. That's the difference between a static reminder and a context-aware system.</p>
 
 <p class="speaker host-a">ALEX:</p>
-<p class="dialogue">Fourth: engine state check. Are your three pillars running? If your sleep is wrecked and you're not moving, this is not the time for new initiatives. Just get the engine back online.</p>
+<p class="dialogue">And the agents coordinate with each other?</p>
 
 <p class="speaker host-b">SAM:</p>
-<p class="dialogue">Fifth: friction check. How many steps does this require to start? If more than two, reduce it. The Elephant will only walk toward things with low activation energy.</p>
+<p class="dialogue">Through the shared Context Brief. If the morning agent logged that you had a bad night, the noon agent adjusts its tone. If the research agent found something relevant, the evening agent might reference it. One shared brain, many hands.</p>
+
+<div class="segment-label">Segment 6: The Agent Crew (3 min)</div>
+
+<p class="speaker host-a">ALEX:</p>
+<p class="dialogue">Let's talk about the specific agents, because some of these are genuinely clever.</p>
+
+<p class="speaker host-b">SAM:</p>
+<p class="dialogue">The highest-leverage one is called Eden — named after the Garden of Eden. It's an autonomous research agent that runs every single morning on autopilot. It searches the latest ADHD science, recovery research, sleep studies, and automation ideas. Then it filters everything through a sustainability check before deciding if it's worth sharing.</p>
+
+<p class="speaker host-a">ALEX:</p>
+<p class="dialogue">So it's doing research you don't have the executive function to do yourself?</p>
+
+<p class="speaker host-b">SAM:</p>
+<p class="dialogue">Exactly. And most days it stays quiet — it only messages when something is genuinely groundbreaking and applicable that specific day. It reads your current state, recent struggles, even your therapist's notes, and uses all of that context to decide what research matters right now. It places apples of knowledge in the Elephant's path.</p>
+
+<p class="speaker host-a">ALEX:</p>
+<p class="dialogue">That's the Elephant and Rider framework running inside the agent itself. What about the daily check-ins?</p>
+
+<p class="speaker host-b">SAM:</p>
+<p class="dialogue">Those are called the Squip Rats — five Telegram bots, one for each key moment of the day. Morning boost, noon check-in, afternoon wind-down, evening transition, bedtime. Each one reads the shared context before messaging. Rough morning? Gentle tone. Good day? They match the energy. They're called rats because they're small, persistent, and everywhere.</p>
+
+<p class="speaker host-a">ALEX:</p>
+<p class="dialogue">And then there's the Sleeper Agent, which is maybe my favorite.</p>
+
+<p class="speaker host-b">SAM:</p>
+<p class="dialogue">The Sleeper Agent handles the hardest transition of the day for ADHD brains — going to bed. It runs a fixed sequence: cold water on the face, dim the lights, warm drink, brush teeth, phone plugged in another room. But the genius part is it uses character personas to make it feel like a game. Like a dry-witted butler guiding you through the nightly mission. It tracks streaks. The Elephant loves the game layer.</p>
+
+<p class="speaker host-a">ALEX:</p>
+<p class="dialogue">And there's one more protocol I want to mention — Waterboarding the Elephant. When an urge hits, the first action is a cold water splash on the face. It's a physiological pattern interrupt — triggers the dive reflex, drops heart rate, gives the Rider a 30-second window to redirect. The response is pre-loaded, so you don't need executive function in the moment.</p>
+
+<p class="speaker host-b">SAM:</p>
+<p class="dialogue">That's the whole philosophy in one protocol. Don't fight the urge with willpower. Interrupt it with a physical action that was decided before the moment arrived. The Rider planned it. The protocol fires it. The Elephant gets redirected.</p>
 
 <div class="segment-label">Closing (1 min)</div>
 
 <p class="speaker host-a">ALEX:</p>
-<p class="dialogue">So what's the takeaway here? Your brain isn't broken. It runs on different hardware. The software most people use — discipline, willpower, "just do it" — wasn't written for your hardware. This framework is.</p>
+<p class="dialogue">So what's the takeaway? Your brain isn't broken. It runs on different hardware. The software most people use — discipline, willpower, "just do it" — wasn't written for your hardware.</p>
 
 <p class="speaker host-b">SAM:</p>
-<p class="dialogue">Build the environment. Feed the Elephant. Keep the stove warm. Run everything through the sustainability filter. And when the engine is down, the only job is the smallest action that gets it running again.</p>
+<p class="dialogue">This framework is. And the implementation layer — SQUIP OS, the agents, the protocols — shows that you can actually build a system that runs the framework for you, so your ADHD brain doesn't have to run it alone.</p>
 
 <p class="speaker host-a">ALEX:</p>
-<p class="dialogue">You're not lazy. You're not undisciplined. You're running a brain that needs different infrastructure than what the world handed you. Now go build the infrastructure.</p>
+<p class="dialogue">Build the environment. Feed the Elephant. Automate what you can. Keep the stove warm. And when the engine is down, the only job is the smallest action that gets it running again.</p>
 
 <p class="speaker host-b">SAM:</p>
+<p class="dialogue">You're not lazy. You're not undisciplined. You're running a brain that needs different infrastructure than what the world handed you. Now go build the infrastructure.</p>
+
+<p class="speaker host-a">ALEX:</p>
 <p class="dialogue">Or at least open the file. The Elephant can handle that.</p>
 
 <p class="note">[END]</p>
 
 <div class="footer">
   Built with care by someone who gets it.<br>
-  Inspired by Jonathan Haidt (Elephant & Rider), Russell Barkley (ADHD research), and a lot of trial and error.
+  Inspired by Jonathan Haidt, Russell Barkley, and a lot of trial and error.
 </div>
 
 </body>
