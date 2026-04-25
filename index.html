@@ -447,6 +447,64 @@
   @media (max-width: 600px) {
     .speed-btn { padding: 6px 10px; font-size: 0.78em; min-height: 36px; }
   }
+
+  /* ── Mobile menu (hamburger overlay) ── */
+  #menu-toggle {
+    display: none; background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 8px; width: 38px; height: 38px; padding: 0;
+    cursor: pointer; align-items: center; justify-content: center;
+    color: var(--text); flex-shrink: 0;
+  }
+  #menu-toggle:hover { border-color: var(--blue); }
+  #menu-toggle svg { width: 20px; height: 20px; }
+  #menu-overlay {
+    position: fixed; inset: 0; z-index: 1100;
+    background: rgba(13,17,23,0.98); backdrop-filter: blur(12px);
+    display: none; flex-direction: column; padding: 60px 20px 20px;
+    overflow-y: auto;
+  }
+  #menu-overlay.open { display: flex; animation: menuIn 0.2s ease-out; }
+  @keyframes menuIn { from { opacity: 0; } to { opacity: 1; } }
+  #menu-close {
+    position: absolute; top: 14px; right: 14px;
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 50%;
+    width: 40px; height: 40px; cursor: pointer; color: var(--text);
+    font-size: 1.4em; line-height: 1; padding: 0;
+  }
+  #menu-close:hover { border-color: var(--red); color: var(--red); }
+  .menu-title { color: var(--blue); font-size: 0.78em; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 700; padding: 0 4px 8px; border-bottom: 1px solid var(--border-light); margin-bottom: 8px; }
+  .menu-link {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 14px; margin: 4px 0;
+    background: var(--bg2); border: 1px solid var(--border-light); border-radius: 10px;
+    color: var(--text); text-decoration: none; font-size: 1.02em; font-weight: 500;
+    transition: all 0.15s; min-height: 52px;
+  }
+  .menu-link:hover, .menu-link:active { background: var(--bg3); border-color: var(--blue); transform: translateX(2px); }
+  .menu-link .menu-emoji { font-size: 1.3em; flex-shrink: 0; width: 28px; text-align: center; }
+  .menu-link.eden { border-left: 3px solid var(--green); }
+  .menu-link.squip { border-left: 3px solid var(--purple); }
+
+  #to-top {
+    position: fixed; bottom: 18px; left: 18px; z-index: 997;
+    width: 46px; height: 46px; border-radius: 50%;
+    background: var(--bg3); border: 1px solid var(--border);
+    color: var(--text); cursor: pointer; padding: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.4em; line-height: 1;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    opacity: 0; transform: translateY(120%); pointer-events: none;
+    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+  #to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+  #to-top:hover { border-color: var(--blue); color: var(--blue); }
+
+  @media (max-width: 700px) {
+    #menu-toggle { display: inline-flex; }
+    .nav-pills { display: none; }
+    .nav-title { font-size: 0.95em; flex: 1; }
+    #to-top { bottom: 78px; }
+  }
 </style>
 </head>
 <body>
@@ -454,6 +512,9 @@
 <div id="progress"></div>
 
 <nav id="topnav">
+  <button id="menu-toggle" aria-label="Open menu" onclick="toggleMenu(true)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+  </button>
   <span class="nav-title">Elephant & Rider</span>
   <div class="nav-pills">
     <a class="nav-pill" href="#model" data-section="model">The Model</a>
@@ -471,6 +532,28 @@
     <a class="nav-pill" href="#sources" data-section="sources">📚 Sources</a>
   </div>
 </nav>
+
+<!-- ══════════ MOBILE MENU OVERLAY ══════════ -->
+<div id="menu-overlay" role="dialog" aria-label="Site navigation">
+  <button id="menu-close" aria-label="Close menu" onclick="toggleMenu(false)">×</button>
+  <div class="menu-title">🐘 Elephant &amp; Rider — Jump to</div>
+  <a class="menu-link" href="#model" onclick="toggleMenu(false)"><span class="menu-emoji">🐘</span><span>The Model</span></a>
+  <a class="menu-link" href="#engine" onclick="toggleMenu(false)"><span class="menu-emoji">⚡</span><span>The Engine</span></a>
+  <a class="menu-link" href="#works" onclick="toggleMenu(false)"><span class="menu-emoji">✅</span><span>What Works</span></a>
+  <a class="menu-link" href="#doesnt" onclick="toggleMenu(false)"><span class="menu-emoji">❌</span><span>What Doesn&#39;t</span></a>
+  <a class="menu-link" href="#wall" onclick="toggleMenu(false)"><span class="menu-emoji">🧱</span><span>Wall of Awful</span></a>
+  <a class="menu-link" href="#squip" onclick="toggleMenu(false)"><span class="menu-emoji">🖥️</span><span>SQUIP OS</span></a>
+  <a class="menu-link squip" href="#squip-agent" onclick="toggleMenu(false)"><span class="menu-emoji">🧠</span><span>Squip — The Orchestrator</span></a>
+  <a class="menu-link eden" href="#eden" onclick="toggleMenu(false)"><span class="menu-emoji">🌿</span><span>Eden — The Research Garden</span></a>
+  <a class="menu-link" href="#agents" onclick="toggleMenu(false)"><span class="menu-emoji">🤖</span><span>The Agent Crew</span></a>
+  <a class="menu-link" href="#scaffolding" onclick="toggleMenu(false)"><span class="menu-emoji">🛡️</span><span>Protocols &amp; Scaffolding</span></a>
+  <a class="menu-link" href="#stove" onclick="toggleMenu(false)"><span class="menu-emoji">🔥</span><span>Keep the Stove Warm</span></a>
+  <a class="menu-link" href="#filter" onclick="toggleMenu(false)"><span class="menu-emoji">🔍</span><span>Sustainability Filter</span></a>
+  <a class="menu-link" href="#sources" onclick="toggleMenu(false)"><span class="menu-emoji">📚</span><span>Sources &amp; Influences</span></a>
+</div>
+
+<!-- ══════════ BACK TO TOP ══════════ -->
+<button id="to-top" aria-label="Back to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
 <div class="content">
 
@@ -498,7 +581,6 @@
   <div class="speed-row" role="group" aria-label="Playback speed">
     <span class="speed-label">Speed</span>
     <button class="speed-btn active" data-rate="1" onclick="setSpeed(1, this)">1×</button>
-    <button class="speed-btn" data-rate="1.25" onclick="setSpeed(1.25, this)">1.25×</button>
     <button class="speed-btn" data-rate="1.5" onclick="setSpeed(1.5, this)">1.5×</button>
     <button class="speed-btn" data-rate="1.75" onclick="setSpeed(1.75, this)">1.75×</button>
     <button class="speed-btn" data-rate="2" onclick="setSpeed(2, this)">2×</button>
@@ -1458,6 +1540,25 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// ── Mobile hamburger menu ──
+function toggleMenu(open) {
+  const overlay = document.getElementById('menu-overlay');
+  if (!overlay) return;
+  if (typeof open !== 'boolean') open = !overlay.classList.contains('open');
+  overlay.classList.toggle('open', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleMenu(false); });
+document.getElementById('menu-overlay')?.addEventListener('click', e => {
+  if (e.target.id === 'menu-overlay') toggleMenu(false);
+});
+
+// ── Back-to-top button ──
+const toTop = document.getElementById('to-top');
+window.addEventListener('scroll', () => {
+  if (toTop) toTop.classList.toggle('show', window.scrollY > 600);
+}, { passive: true });
 </script>
 
 
