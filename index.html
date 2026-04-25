@@ -396,20 +396,6 @@
   .cite { color: var(--blue-dim); font-size: 0.78em; vertical-align: super; text-decoration: none; padding: 0 2px; }
   .cite:hover { color: var(--blue); text-decoration: underline; }
 
-  /* ── Playback speed controls ── */
-  .speed-row { display: flex; align-items: center; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
-  .speed-label { color: var(--text-muted); font-size: 0.75em; text-transform: uppercase; letter-spacing: 1.2px; margin-right: 4px; }
-  .speed-btn {
-    background: var(--bg2); border: 1px solid var(--border); border-radius: 18px;
-    padding: 4px 12px; font-size: 0.82em; font-weight: 600; color: var(--text-dim);
-    cursor: pointer; font-family: inherit; transition: all 0.15s; min-height: 32px;
-  }
-  .speed-btn:hover { border-color: var(--green); color: var(--text); }
-  .speed-btn.active {
-    background: var(--green); color: #0d1117; border-color: var(--green);
-    box-shadow: 0 0 0 2px rgba(63,185,80,0.2);
-  }
-
   /* ── Mobile polish ── */
   @media (max-width: 600px) {
     .content { padding: 80px 16px 60px; }
@@ -429,7 +415,6 @@
     .rat-time { font-size: 0.72em; }
     .rat-name { font-size: 0.92em; }
     .rat-class { font-size: 0.74em; flex-basis: 100%; margin-top: 2px; }
-    .speed-btn { padding: 6px 10px; font-size: 0.78em; min-height: 36px; }
     #miniplayer { left: 12px; right: 12px; max-width: none; padding: 6px 12px 6px 6px; }
     #miniplayer .mp-text { font-size: 0.74em; }
     .source-item { padding: 12px 14px; }
@@ -493,14 +478,6 @@
     <source src="podcast.mp3" type="audio/mpeg">
     Your browser doesn't support audio. <a href="podcast.mp3">Download the MP3</a>.
   </audio>
-  <div class="speed-row" role="group" aria-label="Playback speed">
-    <span class="speed-label">Speed</span>
-    <button class="speed-btn active" data-rate="1" onclick="setSpeed(1, this)">1×</button>
-    <button class="speed-btn" data-rate="1.25" onclick="setSpeed(1.25, this)">1.25×</button>
-    <button class="speed-btn" data-rate="1.5" onclick="setSpeed(1.5, this)">1.5×</button>
-    <button class="speed-btn" data-rate="1.75" onclick="setSpeed(1.75, this)">1.75×</button>
-    <button class="speed-btn" data-rate="2" onclick="setSpeed(2, this)">2×</button>
-  </div>
 </div>
 
 <div class="callout">
@@ -1423,41 +1400,6 @@ document.addEventListener('keydown', e => {
     e.preventDefault();
     document.getElementById('agent-search')?.focus();
   }
-});
-
-// ── Playback speed controls ──
-function setSpeed(rate, btn) {
-  const a = document.getElementById('main-audio');
-  if (!a) return;
-  a.playbackRate = rate;
-  document.querySelectorAll('.speed-btn').forEach(b => b.classList.toggle('active', b === btn));
-  try { localStorage.setItem('eor_speed', String(rate)); } catch(e) {}
-}
-// Restore saved preference on load
-window.addEventListener('DOMContentLoaded', () => {
-  try {
-    const saved = parseFloat(localStorage.getItem('eor_speed'));
-    if (saved && [1, 1.25, 1.5, 1.75, 2].includes(saved)) {
-      const a = document.getElementById('main-audio');
-      const btn = document.querySelector(`.speed-btn[data-rate="${saved}"]`);
-      if (a && btn) {
-        a.playbackRate = saved;
-        document.querySelectorAll('.speed-btn').forEach(b => b.classList.toggle('active', b === btn));
-      }
-    }
-  } catch(e) {}
-});
-// Also re-apply speed on every play (some browsers reset playbackRate on src reload)
-document.addEventListener('DOMContentLoaded', () => {
-  const a = document.getElementById('main-audio');
-  if (!a) return;
-  a.addEventListener('play', () => {
-    const activeBtn = document.querySelector('.speed-btn.active');
-    if (activeBtn) {
-      const rate = parseFloat(activeBtn.dataset.rate);
-      if (!isNaN(rate)) a.playbackRate = rate;
-    }
-  });
 });
 </script>
 
