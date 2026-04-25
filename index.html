@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Elephant & The Rider — ADHD Framework + SQUIP OS (with Eden)</title>
+<title>The Elephant & The Rider — Toby's ADHD Framework, SQUIP OS & the Agent Crew</title>
 <meta name="description" content="ADHD framework built on environment design over willpower — Elephant & Rider model, The Engine, plus SQUIP OS, the AI-agent operating system Toby actually runs daily. Eden is the highest-leverage agent. 4-min podcast with Eden & Andrew, then the full doc.">
 <style>
   :root {
@@ -222,12 +222,6 @@
   .podcast-hero .ph-title { color: var(--text); font-size: 1.05em; font-weight: 600; line-height: 1.4; }
   .podcast-hero .ph-sub { color: var(--text-dim); font-size: 0.82em; margin-top: 2px; }
   .podcast-hero audio { width: 100%; border-radius: 8px; }
-  .podcast-hero .ph-hosts {
-    display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; font-size: 0.78em; color: var(--text-dim);
-  }
-  .podcast-hero .ph-host { display: inline-flex; align-items: center; gap: 6px; background: var(--bg2); padding: 4px 10px; border-radius: 12px; }
-  .podcast-hero .ph-dot-eden { width: 6px; height: 6px; border-radius: 50%; background: var(--green); }
-  .podcast-hero .ph-dot-andrew { width: 6px; height: 6px; border-radius: 50%; background: var(--blue); }
 
   /* ── Sticky mini-player (NEW) ── */
   #miniplayer {
@@ -317,6 +311,140 @@
   #agent-search::placeholder { color: var(--text-muted); }
   .agent-card.hidden { display: none; }
   .agent-card.match-highlight { border-color: var(--yellow); }
+
+  /* ── Squip orchestrator ── */
+  .squip-hero {
+    background:
+      radial-gradient(circle at 30% 0%, rgba(211,168,255,0.18), transparent 50%),
+      linear-gradient(135deg, rgba(211,168,255,0.06), rgba(31,111,235,0.05));
+    border: 1px solid var(--purple); border-radius: 14px;
+    padding: 26px 24px; margin: 18px 0 24px; position: relative; overflow: hidden;
+  }
+  .squip-hero::before {
+    content: "🧠"; position: absolute; top: -10px; right: -8px;
+    font-size: 7em; opacity: 0.06; transform: rotate(-8deg);
+  }
+  .squip-hero h3 { color: var(--purple); font-size: 1.4em; margin-bottom: 4px; }
+  .squip-hero .squip-tag { color: var(--text-dim); font-size: 0.85em; margin-bottom: 14px; }
+  .squip-hero .squip-tier {
+    display: inline-block; background: rgba(211,168,255,0.15); color: var(--purple);
+    padding: 3px 12px; border-radius: 12px; font-size: 0.75em; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px;
+  }
+  .squip-commands { margin: 16px 0; display: grid; gap: 10px; }
+  .squip-cmd {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px 14px; display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start;
+    transition: border-color 0.2s;
+  }
+  .squip-cmd:hover { border-color: var(--purple); }
+  .squip-cmd .squip-bubble {
+    background: var(--bg3); border-radius: 10px 10px 10px 2px;
+    padding: 8px 12px; font-size: 0.88em; color: var(--text); border-left: 3px solid var(--blue);
+  }
+  .squip-cmd .squip-action { color: var(--text-dim); font-size: 0.85em; padding: 8px 0; display: flex; flex-direction: column; gap: 4px; }
+  .squip-cmd .squip-arrow { color: var(--purple); font-weight: 700; font-size: 0.78em; letter-spacing: 1px; }
+  .squip-cmd .squip-skill {
+    background: var(--bg); border: 1px solid var(--border-light); border-radius: 6px;
+    padding: 2px 8px; font-family: ui-monospace, SFMono-Regular, monospace;
+    color: var(--green); font-size: 0.78em; align-self: start;
+  }
+
+  /* ── Rat character cards (showcase voices) ── */
+  .rat-stage { display: grid; gap: 10px; margin: 16px 0; }
+  .rat-card {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px 18px; transition: all 0.2s;
+  }
+  .rat-card:hover { border-color: var(--orange); transform: translateY(-1px); }
+  .rat-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+  .rat-time { color: var(--orange); font-family: ui-monospace, monospace; font-size: 0.78em; font-weight: 700; background: rgba(240,136,62,0.1); padding: 2px 8px; border-radius: 6px; }
+  .rat-name { color: var(--text); font-weight: 700; font-size: 0.98em; }
+  .rat-class { color: var(--text-dim); font-size: 0.8em; font-style: italic; }
+  .rat-quote {
+    background: var(--bg3); border-left: 3px solid var(--orange); border-radius: 0 8px 8px 0;
+    padding: 10px 14px; margin: 8px 0; font-style: italic; color: var(--text);
+    font-size: 0.92em; line-height: 1.55;
+  }
+  .rat-quote::before { content: "🐀 "; opacity: 0.6; }
+  .rat-meta { color: var(--text-dim); font-size: 0.85em; line-height: 1.55; }
+
+  /* ── Alfred / Sleeper ── */
+  .sleeper-card {
+    background: linear-gradient(135deg, rgba(20,20,40,0.6), rgba(60,40,80,0.3));
+    border: 1px solid var(--purple); border-radius: 12px;
+    padding: 18px 20px; margin: 14px 0;
+  }
+  .sleeper-card h4 { color: var(--purple); margin-bottom: 4px; }
+  .sleeper-card .alfred-voice {
+    background: var(--bg); border-radius: 10px; padding: 10px 14px; margin: 10px 0;
+    border-left: 3px solid var(--purple); font-style: italic; font-size: 0.92em;
+  }
+
+  /* ── Sources ── */
+  .source-list { display: grid; gap: 10px; margin: 14px 0; }
+  .source-item {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 16px; transition: border-color 0.2s;
+  }
+  .source-item:hover { border-color: var(--blue-dim); }
+  .source-author { color: var(--text); font-weight: 600; font-size: 0.95em; }
+  .source-title { color: var(--blue); font-size: 0.9em; margin: 2px 0; }
+  .source-title a { color: var(--blue); }
+  .source-note { color: var(--text-dim); font-size: 0.85em; line-height: 1.5; margin-top: 4px; }
+
+  .cite { color: var(--blue-dim); font-size: 0.78em; vertical-align: super; text-decoration: none; padding: 0 2px; }
+  .cite:hover { color: var(--blue); text-decoration: underline; }
+
+  /* ── Playback speed controls ── */
+  .speed-row { display: flex; align-items: center; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+  .speed-label { color: var(--text-muted); font-size: 0.75em; text-transform: uppercase; letter-spacing: 1.2px; margin-right: 4px; }
+  .speed-btn {
+    background: var(--bg2); border: 1px solid var(--border); border-radius: 18px;
+    padding: 4px 12px; font-size: 0.82em; font-weight: 600; color: var(--text-dim);
+    cursor: pointer; font-family: inherit; transition: all 0.15s; min-height: 32px;
+  }
+  .speed-btn:hover { border-color: var(--green); color: var(--text); }
+  .speed-btn.active {
+    background: var(--green); color: #0d1117; border-color: var(--green);
+    box-shadow: 0 0 0 2px rgba(63,185,80,0.2);
+  }
+
+  /* ── Mobile polish ── */
+  @media (max-width: 600px) {
+    .content { padding: 80px 16px 60px; }
+    .hero { padding: 28px 0 20px; }
+    .hero h1 { font-size: 1.7em; line-height: 1.2; }
+    .podcast-hero { padding: 22px 18px; }
+    .podcast-hero .ph-leaf { font-size: 1.8em; }
+    .podcast-hero .ph-title { font-size: 0.98em; }
+    .podcast-hero .ph-sub { font-size: 0.78em; }
+    .section-title { font-size: 1.1em; }
+    .section-icon { font-size: 1.2em; }
+    .nav-pill { padding: 4px 12px; font-size: 0.74em; }
+    .agent-grid, .pillar-grid, .vs-grid { grid-template-columns: 1fr !important; }
+    .squip-cmd { grid-template-columns: 1fr; gap: 8px; }
+    .squip-cmd .squip-action { flex-direction: row; align-items: center; gap: 8px; padding: 0; }
+    .rat-head { gap: 6px; }
+    .rat-time { font-size: 0.72em; }
+    .rat-name { font-size: 0.92em; }
+    .rat-class { font-size: 0.74em; flex-basis: 100%; margin-top: 2px; }
+    .speed-btn { padding: 6px 10px; font-size: 0.78em; min-height: 36px; }
+    #miniplayer { left: 12px; right: 12px; max-width: none; padding: 6px 12px 6px 6px; }
+    #miniplayer .mp-text { font-size: 0.74em; }
+    .source-item { padding: 12px 14px; }
+    blockquote { padding: 10px 14px; }
+    .quiz { padding: 16px; }
+    .quiz-opt { padding: 10px 12px; font-size: 0.88em; }
+    audio { width: 100%; }
+  }
+
+  /* Larger tap targets globally for mobile */
+  @media (max-width: 600px) {
+    .section-header { padding: 16px 0; min-height: 48px; }
+    .nav-pill { min-height: 32px; display: inline-flex; align-items: center; }
+    button, .squip-cmd, .agent-card, .rat-card { min-height: 44px; }
+  }
 </style>
 </head>
 <body>
@@ -332,11 +460,13 @@
     <a class="nav-pill" href="#doesnt" data-section="doesnt">What Doesn't</a>
     <a class="nav-pill" href="#wall" data-section="wall">Wall of Awful</a>
     <a class="nav-pill" href="#squip" data-section="squip">SQUIP OS</a>
+    <a class="nav-pill" href="#squip-agent" data-section="squip-agent" style="border-color:var(--purple);color:var(--purple)">🧠 Squip</a>
     <a class="nav-pill" href="#eden" data-section="eden" style="border-color:var(--green);color:var(--green)">🌿 Eden</a>
     <a class="nav-pill" href="#agents" data-section="agents">The Agents</a>
     <a class="nav-pill" href="#scaffolding" data-section="scaffolding">Scaffolding</a>
     <a class="nav-pill" href="#stove" data-section="stove">Stove Warm</a>
     <a class="nav-pill" href="#filter" data-section="filter">Filter</a>
+    <a class="nav-pill" href="#sources" data-section="sources">📚 Sources</a>
   </div>
 </nav>
 
@@ -363,10 +493,13 @@
     <source src="podcast.mp3" type="audio/mpeg">
     Your browser doesn't support audio. <a href="podcast.mp3">Download the MP3</a>.
   </audio>
-  <div class="ph-hosts">
-    <span class="ph-host"><span class="ph-dot-eden"></span>Eden &nbsp;<span style="color:var(--text-muted);font-family:ui-monospace,monospace">en-US-AvaMultilingual</span></span>
-    <span class="ph-host"><span class="ph-dot-andrew"></span>Andrew &nbsp;<span style="color:var(--text-muted);font-family:ui-monospace,monospace">en-US-AndrewMultilingual</span></span>
-    <span class="ph-host" style="background:transparent;border:1px dashed var(--border);color:var(--text-muted)">Generated free via Edge TTS · NotebookLM-style</span>
+  <div class="speed-row" role="group" aria-label="Playback speed">
+    <span class="speed-label">Speed</span>
+    <button class="speed-btn active" data-rate="1" onclick="setSpeed(1, this)">1×</button>
+    <button class="speed-btn" data-rate="1.25" onclick="setSpeed(1.25, this)">1.25×</button>
+    <button class="speed-btn" data-rate="1.5" onclick="setSpeed(1.5, this)">1.5×</button>
+    <button class="speed-btn" data-rate="1.75" onclick="setSpeed(1.75, this)">1.75×</button>
+    <button class="speed-btn" data-rate="2" onclick="setSpeed(2, this)">2×</button>
   </div>
 </div>
 
@@ -636,6 +769,57 @@
   </div>
 </div>
 
+<!-- ══════════ SECTION: SQUIP — THE ORCHESTRATOR ══════════ -->
+<div class="section reveal" id="squip-agent">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span class="section-icon">🧠</span>
+    <span class="section-title">Squip — The Orchestrator</span>
+    <span class="section-toggle">&#9660;</span>
+  </div>
+  <div class="section-body">
+    <div class="squip-hero">
+      <span class="squip-tier">Top of the stack · The conductor</span>
+      <h3>Squip is the agent Toby talks to.</h3>
+      <p class="squip-tag">If Eden is the gardener and the Rats are the messengers and Alfred is the butler, Squip is the conductor. Everything below Squip is Squip's orchestra.</p>
+      <p>Squip lives at the top of the SQUIP OS stack — the front-door agent Toby actually addresses out loud, in chat, or in Cowork mode<a href="#cite-cowork" class="cite">[1]</a>. Squip reads the same Identity layer (USER.md), the same dynamic State layer (Current Context Brief), and the same Protocol layer the others read — but Squip's job isn't to act on a schedule. Squip's job is to <em>route</em>: take Toby's natural-language intent and turn it into work that one of the downstream agents or skills will pick up.</p>
+    </div>
+
+    <h3 style="color:var(--purple);margin:20px 0 10px;font-size:1.05em">What Squip can do (real examples)</h3>
+
+    <div class="squip-commands">
+      <div class="squip-cmd">
+        <div class="squip-action"><span class="squip-arrow">TOBY →</span><span class="squip-skill">update-current-context</span></div>
+        <div class="squip-bubble">"It's 10 a.m. and I'm on a walk." → Squip timestamps and writes to the <em>Last Known Activity</em> field of the Current Context Brief, so the next rat that fires knows he's on a walk and doesn't try to redirect him to one.</div>
+      </div>
+      <div class="squip-cmd">
+        <div class="squip-action"><span class="squip-arrow">TOBY →</span><span class="squip-skill">add-task</span></div>
+        <div class="squip-bubble">"Add a task and prioritize it." → Squip files into the Eisenhower Matrix, scores it on urgency × importance, and surfaces it in the right quadrant. Includes Elephant-tolerance rating so the matrix knows whether it's actually doable today.</div>
+      </div>
+      <div class="squip-cmd">
+        <div class="squip-action"><span class="squip-arrow">TOBY →</span><span class="squip-skill">google-calendar</span></div>
+        <div class="squip-bubble">"Put therapy on my calendar Wednesday at 4." → Squip adds the event with the right reminders, location, and surrounding-context buffer.</div>
+      </div>
+      <div class="squip-cmd">
+        <div class="squip-action"><span class="squip-arrow">TOBY →</span><span class="squip-skill">rat-lord</span></div>
+        <div class="squip-bubble">"Give all my Squip Rats Australian accents." → Squip hands off to the rat-lord skill, which mass-edits all five rat persona overlays at once. The accents change. The functional steps stay intact.</div>
+      </div>
+      <div class="squip-cmd">
+        <div class="squip-action"><span class="squip-arrow">TOBY →</span><span class="squip-skill">create-public-page</span></div>
+        <div class="squip-bubble">"Build a website explaining my framework." → Squip drafts the HTML, calls the create-public-page skill, deploys to Cloudflare Pages or GitHub Pages, and texts Toby the live URL. <em>(This page exists because of that command.)</em></div>
+      </div>
+      <div class="squip-cmd">
+        <div class="squip-action"><span class="squip-arrow">TOBY →</span><span class="squip-skill">eden</span></div>
+        <div class="squip-bubble">"Eden, look into caffeine timing for ADHD meds." → Squip routes to Eden, who runs the research, applies the sustainability filter, and either ships an HTML roadmap + podcast or stays quiet. Squip is the door Eden walks through.</div>
+      </div>
+    </div>
+
+    <div class="callout" style="border-color:var(--purple);background:rgba(211,168,255,0.06)">
+      <div class="callout-label" style="color:var(--purple)">Why Squip matters</div>
+      <p style="margin:0">A scheduled agent fires on a clock. Squip fires on intent. Toby doesn't have to remember which skill does what — he describes the outcome, and Squip routes. That's the difference between an automation toolbox and an actual operating system. The interface is conversational, the execution is precise.</p>
+    </div>
+  </div>
+</div>
+
 <!-- ══════════ SECTION: EDEN (HERO TREATMENT) ══════════ -->
 <div class="section reveal" id="eden">
   <div class="section-header" onclick="toggleSection(this)">
@@ -720,6 +904,151 @@
 
     <div class="agent-search-row">
       <input id="agent-search" type="text" placeholder="🔎 Search agents (e.g. 'sleep', 'rats', 'context')..." oninput="filterAgents(this.value)">
+    </div>
+
+    <h3 style="color:var(--orange);margin:20px 0 10px;font-size:1.1em">🐀 The Squip Rats — programmed novelty, not generic reminders</h3>
+    <p style="color:var(--text-dim);font-size:0.92em">Five rats, five time slots, five characters, five voices. Each one is a member of the <strong>Squip Adventuring Party</strong> — a DnD-flavored rat-folk company sworn to Tobias-the-Rider's court. The novelty <em>is</em> the function: a generic alarm gets ignored; a Bard-rat strumming his lute outside your chamber yelling about Heroes' Feast does not.</p>
+
+    <div class="rat-stage">
+      <div class="rat-card">
+        <div class="rat-head">
+          <span class="rat-time">07:00 AM</span>
+          <span class="rat-name">🎶 Fennwick the Bold</span>
+          <span class="rat-class">— Bard-rat · meds + work encouragement</span>
+        </div>
+        <div class="rat-quote">"Hark, my lord — Heroes' Feast time. Down those Adderall pellets, take Advantage on the day. Quest board says one urgent posting before noon. Roll for Inspiration. (Natural 17, nice.)"</div>
+        <div class="rat-meta">Theatrical, over-the-top, committed to the bit. Frames the Adderall as the ritual meal before battle, the first work task as the opening encounter, anything urgent on the Eisenhower Matrix as the quest posted on the tavern board. If a line deserves to be sung 🎶, sings it.</div>
+      </div>
+
+      <div class="rat-card">
+        <div class="rat-head">
+          <span class="rat-time">05:30 AM</span>
+          <span class="rat-name">🌅 Sister Veska</span>
+          <span class="rat-class">— Cleric-rat · morning recovery boost</span>
+        </div>
+        <div class="rat-quote">"Guidance, Tobias. +1d4 on your first check. The day has a good roll in it somewhere — let's find it together."</div>
+        <div class="rat-meta">Soft, reverent, sparing with words. Speaks in the cadence of a quiet blessing at sunrise. One line of secular wisdom (Jordan-Peterson-style meaning-making, no religion — Toby has trauma there). One Guidance cantrip cast on his first roll. One carefully chosen recovery quote. Lots of breathing room.</div>
+      </div>
+
+      <div class="rat-card">
+        <div class="rat-head">
+          <span class="rat-time">12:00 PM</span>
+          <span class="rat-name">🏹 Ghilan the Tracker</span>
+          <span class="rat-class">— Ranger-rat · noon field intel</span>
+        </div>
+        <div class="rat-quote">"TOBIAS — THE TRACKS LEAD STRAIGHT TO THE BREAK ROOM VENDING MACHINE, MOUNT UP. Roll Survival on lunch. Roll Investigation on whether you've actually had water today. (You haven't, mate. Drink.)"</div>
+        <div class="rat-meta">Alert, earthy, practical, woodsy, a little feral. Crashes into the war-tent with field intel. Frames check-ins as rolls — Perception on how the day is going, Survival on the next move. Dramatic urgency when needed, in the best possible way.</div>
+      </div>
+
+      <div class="rat-card">
+        <div class="rat-head">
+          <span class="rat-time">03:30 PM</span>
+          <span class="rat-name">🗡️ Sly Pippin</span>
+          <span class="rat-class">— Rogue-rat · afternoon wind-down</span>
+        </div>
+        <div class="rat-quote">"Roll Stealth — sneak the rest of the workday past you. One more Sneak Attack on that open tab and we close the caper clean. The heist of today funds tomorrow's bigger score."</div>
+        <div class="rat-meta">Charming scoundrel. Slips into messages with a sly grin and a lockpick. Bardic-college dropout — theatrical commitment is still there, just cooler. Frames positive flywheels as the heist; today's momentum funds tomorrow's bigger score.</div>
+      </div>
+
+      <div class="rat-card">
+        <div class="rat-head">
+          <span class="rat-time">08:00 PM</span>
+          <span class="rat-name">🔮 Archmage Velyn</span>
+          <span class="rat-class">— Wizard-rat · bedtime spell prep</span>
+        </div>
+        <div class="rat-quote">"Sleep incantation prepared. Screens: extinguish. Meds: final component. Lights-out by 23:00. Rest well, my lord. 🌙"</div>
+        <div class="rat-meta">Old. Quiet. Arcane. Speaks in incantation-style beats — not speeches. Casts Sleep on the household every night. A single line of portent, one or two component-check beats, maybe a 🌙 or ✨. Minimal words, maximum care. The love is in the spell being cast for Tobias's own good.</div>
+      </div>
+    </div>
+
+    <p style="color:var(--text-dim);font-size:0.85em;margin-top:8px">Each rat reads the Current Context Brief AND the rolling Comms Log of the last 5 messages before composing — so they don't repeat each other, can build on threads, and adjust tone if Toby was venting to the previous one. Each one sends a text + a Pollinations.ai-generated image of their character + a voice note in their assigned voice. Every rat shares one rule: <em>persona wraps the nudge, never buries it.</em></p>
+
+    <h3 style="color:var(--purple);margin:24px 0 10px;font-size:1.1em">🌙 The Sleeper Agent — currently: Alfred from <em>The Lego Batman Movie</em></h3>
+
+    <div class="sleeper-card">
+      <h4>"Master Tobias, your bedtime wind-down begins."</h4>
+      <p style="margin:8px 0;color:var(--text-dim);font-size:0.92em">Fires at 8:15 PM, fifteen minutes after Velyn's incantation. Runs a 5-task sequence: cold water on face → randomized middle three (dim lights, warm drink, brush teeth) → phone plugged in by the bed.</p>
+
+      <p style="margin:8px 0;color:var(--text-dim);font-size:0.92em">The current persona is Alfred Pennyworth from <em>The Lego Batman Movie</em>. Dry. Devoted. Mandatorily makes a dead-parents joke at least once per session because Alfred is committed to the bit and the Elephant rewards committed bits.</p>
+
+      <div class="alfred-voice">"Cold water on the face, Master Tobias. Splendid. I should mention, while we're being intimate with the sink — your parents would be very proud of this routine. Or they would be, if they were here. <em>(beat)</em> Task 1 complete. ✓"</div>
+
+      <p style="margin:8px 0;color:var(--text-dim);font-size:0.92em"><strong>The novelty modifier</strong> is the secret sauce. Each night, exactly one task is paired with an absurd physical modifier the Elephant cannot ignore: "complete this task while wearing your shirt as pants," "narrate this in a British nature documentary voice," "moonwalk to the sink." Never repeats — the agent reads the 7-day mission history and generates fresh.</p>
+
+      <p style="margin:8px 0;color:var(--text-dim);font-size:0.92em"><strong>Mini-rewards per task</strong>, fully in-persona: micro bedtime stories, fake awards, classified intel, haikus about the heroic bedtime journey. The reward after the final phone-plug-in task is special — a genuine, warm sign-off. Putting the phone down should feel like a reward, not a loss.</p>
+
+      <p style="color:var(--purple);font-size:0.88em;margin:0"><strong>Why Alfred specifically:</strong> Alfred is dry-witted, devoted, English, and wholly committed to taking care of his charge. The dead-parents jokes work because they're a bit, not a wound. Toby's elephant responds to characters that lean fully into themselves. The persona is swappable from a Notion config — Alfred today, someone else tomorrow.</p>
+    </div>
+
+    <h3 style="color:var(--blue);margin:24px 0 10px;font-size:1.1em">The supporting cast</h3>
+
+    <div class="agent-grid">
+      <div class="agent-card">
+        <div class="agent-name"><span>📋</span> The Eisenhower Matrix</div>
+        <div class="agent-role">Task triage with an ADHD twist</div>
+        <div class="agent-desc">
+          <p>Classic urgent × important quadrant grid<a href="#cite-eisenhower" class="cite">[2]</a>, but every task also gets an <strong>Elephant-tolerance score</strong>. A task can be Q1 (urgent + important) and still not get done if its Wall of Awful is too high<a href="#cite-mccabe" class="cite">[3]</a>. The matrix accounts for that — it'll surface a smaller Q2 task instead.</p>
+          <p>Squip writes to it. The rats read from it. Eden filters research against it.</p>
+        </div>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-name"><span>📄</span> Current Context Brief</div>
+        <div class="agent-role">The shared brain · single source of truth</div>
+        <div class="agent-desc">
+          <p>Every agent reads this before doing anything. Contains: engine status (sleep/meds/movement), recently completed actions, current struggles, recent wins, this week's focus, last known activity, and "elephant notes" — what the Elephant is gravitating toward or away from.</p>
+          <p>Living document. Squip writes to it on intent. Every other agent reads it before acting.</p>
+        </div>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-name"><span>🚿</span> Waterboarding the Elephant</div>
+        <div class="agent-role">Urge-reset protocol · physiological pattern interrupt</div>
+        <div class="agent-desc">
+          <p>When an urge hits: cold water on the face → name the urge out loud → redirect to a pre-chosen alternative. Cold water triggers the mammalian dive reflex<a href="#cite-dive" class="cite">[4]</a> — vagal response, lowered heart rate, 30-second window for the Rider.</p>
+          <p>Pre-loaded so it doesn't require willpower. Decision made when the Rider was online.</p>
+        </div>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-name"><span>💌</span> Dear Ambivalent Toby</div>
+        <div class="agent-role">A letter from past-Toby to future-Toby</div>
+        <div class="agent-desc">
+          <p>Pre-written letter surfaced when the engine drops or the urge hits. Speaks past-Toby's clarity into the moment when present-Toby's executive function is offline. Implementation Intentions<a href="#cite-gollwitzer" class="cite">[5]</a> compressed into one document.</p>
+        </div>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-name"><span>📓</span> Rat Comms Log</div>
+        <div class="agent-role">Last 5 messages · keeps the rats coherent</div>
+        <div class="agent-desc">
+          <p>Every rat updates this Notion page after sending a message. Next rat reads it before composing — knows what the previous one said, what Toby replied, and adjusts. That's why the Bard doesn't repeat the Cleric, and the Wizard at 8 PM acknowledges if Toby was venting at 3 PM.</p>
+        </div>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-name"><span>💰</span> Squip Dog Millionaire</div>
+        <div class="agent-role">Personal finance agent</div>
+        <div class="agent-desc">
+          <p>Tracks money, surfaces budget drift, watches for opportunity costs. Quiet by default. Speaks when something needs saying.</p>
+        </div>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-name"><span>📊</span> Eden Raise Tracker</div>
+        <div class="agent-role">Eden's self-improvement loop</div>
+        <div class="agent-desc">
+          <p>Eden grades her own outputs over time — what landed, what didn't, where Toby left feedback. The tracker rolls those signals up so Eden can tune what she ships next. An agent that gets better at being itself.</p>
+        </div>
+      </div>
+
+      <div class="agent-card">
+        <div class="agent-name"><span>🗓️</span> Weekly Review</div>
+        <div class="agent-role">Sunday evening recap</div>
+        <div class="agent-desc">
+          <p>Summarizes completed tasks and upcoming deadlines. The whole week, condensed. Sends Sunday evening so the Rider can plan before Monday's first encounter.</p>
+        </div>
+      </div>
     </div>
 
     <div class="agent-grid">
@@ -870,6 +1199,90 @@
     <div class="card"><div class="card-label"><span class="emoji-label">🐘</span> 3. Elephant Tolerance</div><p>Does this require willpower to maintain? If yes → it won't survive. Redesign so the environment or a system does the work.</p></div>
     <div class="card"><div class="card-label"><span class="emoji-label">⚡</span> 4. Engine State Check</div><p>Is your engine running? If not → only the smallest momentum-preserving action. No new things.</p></div>
     <div class="card"><div class="card-label"><span class="emoji-label">🚪</span> 5. Friction Check</div><p>How many steps to start? If more than 2 → reduce it. The Elephant only walks toward low activation energy.</p></div>
+  </div>
+</div>
+
+<!-- ══════════ SECTION: SOURCES & INFLUENCES ══════════ -->
+<div class="section reveal" id="sources">
+  <div class="section-header" onclick="toggleSection(this)">
+    <span class="section-icon">📚</span>
+    <span class="section-title">Sources &amp; Influences</span>
+    <span class="section-toggle">&#9660;</span>
+  </div>
+  <div class="section-body">
+    <p>None of the science here is mystery. The framework is stitched together from public research and writers who already had it right — applied through an ADHD lens.</p>
+
+    <div class="source-list">
+      <div class="source-item" id="cite-cowork">
+        <div class="source-author">[1] Anthropic — Claude / Cowork mode / Claude Agent SDK</div>
+        <div class="source-title"><a href="https://www.anthropic.com/" target="_blank" rel="noopener">anthropic.com</a></div>
+        <div class="source-note">The reasoning + agent layer SQUIP OS runs on. Cowork mode is the desktop tool Toby uses to talk to Squip. The Agent SDK underlies the scheduled agents (Eden, the rats, the Sleeper Agent).</div>
+      </div>
+
+      <div class="source-item" id="cite-eisenhower">
+        <div class="source-author">[2] Eisenhower Matrix — folk methodology</div>
+        <div class="source-note">Often attributed to Dwight D. Eisenhower, popularized by Stephen Covey's <em>The 7 Habits of Highly Effective People</em> (1989). The ADHD modification (the Elephant-tolerance score) is Toby's.</div>
+      </div>
+
+      <div class="source-item" id="cite-mccabe">
+        <div class="source-author">[3] Jessica McCabe — <em>How to ADHD</em> (YouTube, 2016–) and <em>How to ADHD: An Insider's Guide to Working With Your Brain</em> (2024)</div>
+        <div class="source-title"><a href="https://www.youtube.com/c/HowtoADHD" target="_blank" rel="noopener">youtube.com/c/HowtoADHD</a></div>
+        <div class="source-note">Coined the "Wall of Awful" — the emotional layer of resistance that accumulates around avoided tasks. One of the few ADHD voices online not optimized for neurotypical brains.</div>
+      </div>
+
+      <div class="source-item" id="cite-dive">
+        <div class="source-author">[4] Mammalian dive reflex — physiology</div>
+        <div class="source-title"><a href="https://pubmed.ncbi.nlm.nih.gov/?term=mammalian+dive+reflex" target="_blank" rel="noopener">PubMed search · "mammalian dive reflex"</a></div>
+        <div class="source-note">Cold water on the face triggers vagal response → lowered heart rate → calming window. Used as a 30-second physiological pattern interrupt for urges. Not metaphorical — it's biology. (Surfaced by Eden in early 2026.)</div>
+      </div>
+
+      <div class="source-item" id="cite-gollwitzer">
+        <div class="source-author">[5] Peter M. Gollwitzer — "Implementation Intentions: Strong Effects of Simple Plans" (1999), <em>American Psychologist</em></div>
+        <div class="source-title"><a href="https://psycnet.apa.org/doi/10.1037/0003-066X.54.7.493" target="_blank" rel="noopener">APA · doi:10.1037/0003-066X.54.7.493</a></div>
+        <div class="source-note">The science behind "if-then" pre-loaded responses. Decisions made in advance fire automatically when their cue arrives, no executive function required at the moment. Foundational for SQUIP OS protocols and the Dear Ambivalent Toby letter.</div>
+      </div>
+
+      <div class="source-item">
+        <div class="source-author">Jonathan Haidt — <em>The Happiness Hypothesis</em> (2006)</div>
+        <div class="source-title"><a href="https://www.happinesshypothesis.com/" target="_blank" rel="noopener">happinesshypothesis.com</a></div>
+        <div class="source-note">Origin of the Elephant &amp; Rider metaphor. Haidt was writing about moral psychology generally; the ADHD remix is downstream. Also see Chip &amp; Dan Heath's <em>Switch</em> (2010), which extends the metaphor explicitly to behavior change.</div>
+      </div>
+
+      <div class="source-item">
+        <div class="source-author">Russell A. Barkley — <em>Executive Functions: What They Are, How They Work, and Why They Evolved</em> (2012); <em>Taking Charge of Adult ADHD</em> (2010)</div>
+        <div class="source-title"><a href="https://www.russellbarkley.org/" target="_blank" rel="noopener">russellbarkley.org</a></div>
+        <div class="source-note">The reference for ADHD as an executive-function disorder, not an attention disorder. Why willpower fails. Why exercise is one of the highest-leverage interventions ADHD adults can take. (Confirmed and reinforced by Eden through 2026 research runs.)</div>
+      </div>
+
+      <div class="source-item">
+        <div class="source-author">Matthew Walker — <em>Why We Sleep</em> (2017)</div>
+        <div class="source-title"><a href="https://www.sleepdiplomat.com/" target="_blank" rel="noopener">sleepdiplomat.com</a></div>
+        <div class="source-note">Sleep as the engine core. ADHD-specific guidance about adult sleep needs (8.5–9.5 hrs) is from AASM consensus statements; Walker is the more accessible synthesis.</div>
+      </div>
+
+      <div class="source-item">
+        <div class="source-author">American Academy of Sleep Medicine — Adult sleep duration consensus</div>
+        <div class="source-title"><a href="https://aasm.org/" target="_blank" rel="noopener">aasm.org</a></div>
+        <div class="source-note">The 7+ hour minimum recommendation; ADHD adults often need the upper end (9–9.5 hrs) due to higher cognitive load and frequently disrupted sleep.</div>
+      </div>
+
+      <div class="source-item">
+        <div class="source-author">Body doubling — Focusmate</div>
+        <div class="source-title"><a href="https://www.focusmate.com/" target="_blank" rel="noopener">focusmate.com</a></div>
+        <div class="source-note">Working alongside a stranger over video. Counter-intuitively powerful for ADHD: accountability presence lowers activation energy. Russell Barkley discusses why social scaffolding works where willpower doesn't.</div>
+      </div>
+
+      <div class="source-item">
+        <div class="source-author">James Clear — <em>Atomic Habits</em> (2018)</div>
+        <div class="source-title"><a href="https://jamesclear.com/atomic-habits" target="_blank" rel="noopener">jamesclear.com</a></div>
+        <div class="source-note">Useful for the environment-design framing (cue → craving → response → reward). Less useful as a literal program for ADHD brains — the "1% better every day" frame is exactly the kind of thing that triggers the rubber-band crash. Take the architecture, leave the prescription.</div>
+      </div>
+
+      <div class="source-item">
+        <div class="source-author">Tobias's own additions</div>
+        <div class="source-note">SQUIP OS architecture, the Squip Rat metaphor, the "stove warm" reframe, Reasil-consequentialism (his moral framework), the rats' DnD personas, Alfred-as-Sleeper-Agent, and the specific implementation of all of the above are his own. Other people had pieces. He wired them.</div>
+      </div>
+    </div>
   </div>
 </div>
 
